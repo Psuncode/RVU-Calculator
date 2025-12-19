@@ -1,0 +1,415 @@
+{
+  "Medicare Administrative Contractor": {
+    "name": "Medicare Administrative Contractor",
+    "state": "Medicare Administrative Contractor",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "10112": {
+    "name": "10112",
+    "state": "10112",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "02102": {
+    "name": "02102",
+    "state": "02102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "03102": {
+    "name": "03102",
+    "state": "03102",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "07102": {
+    "name": "07102",
+    "state": "07102",
+    "work_gpci": 13.0,
+    "pe_gpci": 13.0,
+    "mp_gpci": 13.0
+  },
+  "01112": {
+    "name": "01112",
+    "state": "01112",
+    "work_gpci": 75.0,
+    "pe_gpci": 75.0,
+    "mp_gpci": 75.0
+  },
+  "01182": {
+    "name": "01182",
+    "state": "01182",
+    "work_gpci": 74.0,
+    "pe_gpci": 74.0,
+    "mp_gpci": 74.0
+  },
+  "04112": {
+    "name": "04112",
+    "state": "04112",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "13102": {
+    "name": "13102",
+    "state": "13102",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "12202": {
+    "name": "12202",
+    "state": "12202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "12102": {
+    "name": "12102",
+    "state": "12102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "09102": {
+    "name": "09102",
+    "state": "09102",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "10212": {
+    "name": "10212",
+    "state": "10212",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "01212": {
+    "name": "01212",
+    "state": "01212",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "02202": {
+    "name": "02202",
+    "state": "02202",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "06102": {
+    "name": "06102",
+    "state": "06102",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "08102": {
+    "name": "08102",
+    "state": "08102",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "05102": {
+    "name": "05102",
+    "state": "05102",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "05202": {
+    "name": "05202",
+    "state": "05202",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "15102": {
+    "name": "15102",
+    "state": "15102",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "07202": {
+    "name": "07202",
+    "state": "07202",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "14112": {
+    "name": "14112",
+    "state": "14112",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "12302": {
+    "name": "12302",
+    "state": "12302",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "14212": {
+    "name": "14212",
+    "state": "14212",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "08202": {
+    "name": "08202",
+    "state": "08202",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "06202": {
+    "name": "06202",
+    "state": "06202",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "07302": {
+    "name": "07302",
+    "state": "07302",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "05302": {
+    "name": "05302",
+    "state": "05302",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "03202": {
+    "name": "03202",
+    "state": "03202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "05402": {
+    "name": "05402",
+    "state": "05402",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "01312": {
+    "name": "01312",
+    "state": "01312",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "14312": {
+    "name": "14312",
+    "state": "14312",
+    "work_gpci": 40.0,
+    "pe_gpci": 40.0,
+    "mp_gpci": 40.0
+  },
+  "12402": {
+    "name": "12402",
+    "state": "12402",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "04212": {
+    "name": "04212",
+    "state": "04212",
+    "work_gpci": 5.0,
+    "pe_gpci": 5.0,
+    "mp_gpci": 5.0
+  },
+  "13202": {
+    "name": "13202",
+    "state": "13202",
+    "work_gpci": 3.0,
+    "pe_gpci": 3.0,
+    "mp_gpci": 3.0
+  },
+  "13292": {
+    "name": "13292",
+    "state": "13292",
+    "work_gpci": 4.0,
+    "pe_gpci": 4.0,
+    "mp_gpci": 4.0
+  },
+  "13282": {
+    "name": "13282",
+    "state": "13282",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "11502": {
+    "name": "11502",
+    "state": "11502",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "03302": {
+    "name": "03302",
+    "state": "03302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "15202": {
+    "name": "15202",
+    "state": "15202",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "04312": {
+    "name": "04312",
+    "state": "04312",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "02302": {
+    "name": "02302",
+    "state": "02302",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "12502": {
+    "name": "12502",
+    "state": "12502",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "09202": {
+    "name": "09202",
+    "state": "09202",
+    "work_gpci": 50.0,
+    "pe_gpci": 50.0,
+    "mp_gpci": 50.0
+  },
+  "14412": {
+    "name": "14412",
+    "state": "14412",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "11202": {
+    "name": "11202",
+    "state": "11202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "03402": {
+    "name": "03402",
+    "state": "03402",
+    "work_gpci": 2.0,
+    "pe_gpci": 2.0,
+    "mp_gpci": 2.0
+  },
+  "10312": {
+    "name": "10312",
+    "state": "10312",
+    "work_gpci": 35.0,
+    "pe_gpci": 35.0,
+    "mp_gpci": 35.0
+  },
+  "04412": {
+    "name": "04412",
+    "state": "04412",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "03502": {
+    "name": "03502",
+    "state": "03502",
+    "work_gpci": 9.0,
+    "pe_gpci": 9.0,
+    "mp_gpci": 9.0
+  },
+  "14512": {
+    "name": "14512",
+    "state": "14512",
+    "work_gpci": 50.0,
+    "pe_gpci": 50.0,
+    "mp_gpci": 50.0
+  },
+  "11302": {
+    "name": "11302",
+    "state": "11302",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "02402": {
+    "name": "02402",
+    "state": "02402",
+    "work_gpci": 99.0,
+    "pe_gpci": 99.0,
+    "mp_gpci": 99.0
+  },
+  "11402": {
+    "name": "11402",
+    "state": "11402",
+    "work_gpci": 16.0,
+    "pe_gpci": 16.0,
+    "mp_gpci": 16.0
+  },
+  "06302": {
+    "name": "06302",
+    "state": "06302",
+    "work_gpci": 0.0,
+    "pe_gpci": 0.0,
+    "mp_gpci": 0.0
+  },
+  "03602": {
+    "name": "03602",
+    "state": "03602",
+    "work_gpci": 21.0,
+    "pe_gpci": 21.0,
+    "mp_gpci": 21.0
+  },
+  "2019 GPCIs reflect the second year of a two year update transition.": {
+    "name": "2019 GPCIs reflect the second year of a two year update transition.",
+    "state": "2019 GPCIs reflect the second year of a two year update transition.",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "**Work GPCI reflects a 1.5 floor in Alaska established by the MIPPA.": {
+    "name": "**Work GPCI reflects a 1.5 floor in Alaska established by the MIPPA.",
+    "state": "**Work GPCI reflects a 1.5 floor in Alaska established by the MIPPA.",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "***PE GPCI reflects a 1.0 floor for frontier states established by the ACA.": {
+    "name": "***PE GPCI reflects a 1.0 floor for frontier states established by the ACA.",
+    "state": "***PE GPCI reflects a 1.0 floor for frontier states established by the ACA.",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  }
+}

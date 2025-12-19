@@ -1,0 +1,1010 @@
+{
+  "AL-0": {
+    "name": "ALABAMA",
+    "state": "AL",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.889,
+    "mp_gpci": 0.707,
+    "mac": "10112"
+  },
+  "AK-1": {
+    "name": "ALASKA**",
+    "state": "AK",
+    "locality": "01",
+    "work_gpci": 1.5,
+    "pe_gpci": 1.118,
+    "mp_gpci": 0.661,
+    "mac": "02102"
+  },
+  "AZ-0": {
+    "name": "ARIZONA",
+    "state": "AZ",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.961,
+    "mp_gpci": 0.846,
+    "mac": "03102"
+  },
+  "AR-13": {
+    "name": "ARKANSAS",
+    "state": "AR",
+    "locality": "13",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.859,
+    "mp_gpci": 0.521,
+    "mac": "07102"
+  },
+  "BAKERSFIELD-54": {
+    "name": "BAKERSFIELD",
+    "state": "",
+    "locality": "54",
+    "work_gpci": 1.032,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.677,
+    "mac": "01112"
+  },
+  "CHICO-55": {
+    "name": "CHICO",
+    "state": "",
+    "locality": "55",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "EL CENTRO-71": {
+    "name": "EL CENTRO",
+    "state": "",
+    "locality": "71",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.606,
+    "mac": "01182"
+  },
+  "FRESNO-56": {
+    "name": "FRESNO",
+    "state": "",
+    "locality": "56",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "HANFORD-CORCORAN-57": {
+    "name": "HANFORD-CORCORAN",
+    "state": "",
+    "locality": "57",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "LOS ANGELES-LONG BEACH-ANAHEIM (LOS ANGELES CNTY)-18": {
+    "name": "LOS ANGELES-LONG BEACH-ANAHEIM (LOS ANGELES CNTY)",
+    "state": "",
+    "locality": "18",
+    "work_gpci": 1.047,
+    "pe_gpci": 1.176,
+    "mp_gpci": 0.725,
+    "mac": "01182"
+  },
+  "LOS ANGELES-LONG BEACH-ANAHEIM (ORANGE CNTY)-26": {
+    "name": "LOS ANGELES-LONG BEACH-ANAHEIM (ORANGE CNTY)",
+    "state": "",
+    "locality": "26",
+    "work_gpci": 1.047,
+    "pe_gpci": 1.176,
+    "mp_gpci": 0.725,
+    "mac": "01182"
+  },
+  "MADERA-58": {
+    "name": "MADERA",
+    "state": "",
+    "locality": "58",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "MERCED-59": {
+    "name": "MERCED",
+    "state": "",
+    "locality": "59",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "MODESTO-60": {
+    "name": "MODESTO",
+    "state": "",
+    "locality": "60",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "NAPA-51": {
+    "name": "NAPA",
+    "state": "",
+    "locality": "51",
+    "work_gpci": 1.049,
+    "pe_gpci": 1.238,
+    "mp_gpci": 0.496,
+    "mac": "01112"
+  },
+  "SAN FRANCISCO-OAKLAND-HAYWARD (ALAMEDA/CONTRA COSTA CNTY)-7": {
+    "name": "SAN FRANCISCO-OAKLAND-HAYWARD (ALAMEDA/CONTRA COSTA CNTY)",
+    "state": "",
+    "locality": "07",
+    "work_gpci": 1.076,
+    "pe_gpci": 1.327,
+    "mp_gpci": 0.44,
+    "mac": "01112"
+  },
+  "OXNARD-THOUSAND OAKS-VENTURA-17": {
+    "name": "OXNARD-THOUSAND OAKS-VENTURA",
+    "state": "",
+    "locality": "17",
+    "work_gpci": 1.026,
+    "pe_gpci": 1.178,
+    "mp_gpci": 0.7,
+    "mac": "01182"
+  },
+  "REDDING-61": {
+    "name": "REDDING",
+    "state": "",
+    "locality": "61",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "RIVERSIDE-SAN BERNARDINO-ONTARIO-62": {
+    "name": "RIVERSIDE-SAN BERNARDINO-ONTARIO",
+    "state": "",
+    "locality": "62",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.83,
+    "mac": "01112"
+  },
+  "SACRAMENTO--ROSEVILLE--ARDEN-ARCADE-63": {
+    "name": "SACRAMENTO--ROSEVILLE--ARDEN-ARCADE",
+    "state": "",
+    "locality": "63",
+    "work_gpci": 1.033,
+    "pe_gpci": 1.078,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "SALINAS-64": {
+    "name": "SALINAS",
+    "state": "",
+    "locality": "64",
+    "work_gpci": 1.051,
+    "pe_gpci": 1.112,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "SAN DIEGO-CARLSBAD-72": {
+    "name": "SAN DIEGO-CARLSBAD",
+    "state": "",
+    "locality": "72",
+    "work_gpci": 1.032,
+    "pe_gpci": 1.13,
+    "mp_gpci": 0.607,
+    "mac": "01182"
+  },
+  "SAN FRANCISCO-OAKLAND-HAYWARD (SAN FRANCISCO CNTY)-5": {
+    "name": "SAN FRANCISCO-OAKLAND-HAYWARD (SAN FRANCISCO CNTY)",
+    "state": "",
+    "locality": "05",
+    "work_gpci": 1.076,
+    "pe_gpci": 1.327,
+    "mp_gpci": 0.44,
+    "mac": "01112"
+  },
+  "SAN FRANCISCO-OAKLAND-HAYWARD (MARIN CNTY)-52": {
+    "name": "SAN FRANCISCO-OAKLAND-HAYWARD (MARIN CNTY)",
+    "state": "",
+    "locality": "52",
+    "work_gpci": 1.068,
+    "pe_gpci": 1.299,
+    "mp_gpci": 0.481,
+    "mac": "01112"
+  },
+  "SAN JOSE-SUNNYVALE-SANTA CLARA (SAN BENITO CNTY)-65": {
+    "name": "SAN JOSE-SUNNYVALE-SANTA CLARA (SAN BENITO CNTY)",
+    "state": "",
+    "locality": "65",
+    "work_gpci": 1.072,
+    "pe_gpci": 1.279,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "SAN LUIS OBISPO-PASO ROBLES-ARROYO GRANDE-73": {
+    "name": "SAN LUIS OBISPO-PASO ROBLES-ARROYO GRANDE",
+    "state": "",
+    "locality": "73",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.083,
+    "mp_gpci": 0.58,
+    "mac": "01182"
+  },
+  "SAN FRANCISCO-OAKLAND-HAYWARD (SAN MATEO CNTY)-6": {
+    "name": "SAN FRANCISCO-OAKLAND-HAYWARD (SAN MATEO CNTY)",
+    "state": "",
+    "locality": "06",
+    "work_gpci": 1.076,
+    "pe_gpci": 1.327,
+    "mp_gpci": 0.44,
+    "mac": "01112"
+  },
+  "SAN JOSE-SUNNYVALE-SANTA CLARA (SANTA CLARA CNTY)-9": {
+    "name": "SAN JOSE-SUNNYVALE-SANTA CLARA (SANTA CLARA CNTY)",
+    "state": "",
+    "locality": "09",
+    "work_gpci": 1.089,
+    "pe_gpci": 1.369,
+    "mp_gpci": 0.401,
+    "mac": "01112"
+  },
+  "SANTA CRUZ-WATSONVILLE-66": {
+    "name": "SANTA CRUZ-WATSONVILLE",
+    "state": "",
+    "locality": "66",
+    "work_gpci": 1.038,
+    "pe_gpci": 1.16,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "SANTA MARIA-SANTA BARBARA-74": {
+    "name": "SANTA MARIA-SANTA BARBARA",
+    "state": "",
+    "locality": "74",
+    "work_gpci": 1.035,
+    "pe_gpci": 1.14,
+    "mp_gpci": 0.58,
+    "mac": "01182"
+  },
+  "SANTA ROSA-67": {
+    "name": "SANTA ROSA",
+    "state": "",
+    "locality": "67",
+    "work_gpci": 1.038,
+    "pe_gpci": 1.142,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "STOCKTON-LODI-68": {
+    "name": "STOCKTON-LODI",
+    "state": "",
+    "locality": "68",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "VALLEJO-FAIRFIELD-53": {
+    "name": "VALLEJO-FAIRFIELD",
+    "state": "",
+    "locality": "53",
+    "work_gpci": 1.049,
+    "pe_gpci": 1.238,
+    "mp_gpci": 0.496,
+    "mac": "01112"
+  },
+  "VISALIA-PORTERVILLE-69": {
+    "name": "VISALIA-PORTERVILLE",
+    "state": "",
+    "locality": "69",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "YUBA CITY-70": {
+    "name": "YUBA CITY",
+    "state": "",
+    "locality": "70",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "REST OF CALIFORNIA-75": {
+    "name": "REST OF CALIFORNIA",
+    "state": "",
+    "locality": "75",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.07,
+    "mp_gpci": 0.58,
+    "mac": "01112"
+  },
+  "CO-1": {
+    "name": "COLORADO",
+    "state": "CO",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.033,
+    "mp_gpci": 0.905,
+    "mac": "04112"
+  },
+  "CT-0": {
+    "name": "CONNECTICUT",
+    "state": "CT",
+    "locality": "00",
+    "work_gpci": 1.029,
+    "pe_gpci": 1.113,
+    "mp_gpci": 1.094,
+    "mac": "13102"
+  },
+  "DC + MD/VA SUBURBS-1": {
+    "name": "DC + MD/VA SUBURBS",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.049,
+    "pe_gpci": 1.221,
+    "mp_gpci": 1.277,
+    "mac": "12202"
+  },
+  "DE-1": {
+    "name": "DELAWARE",
+    "state": "DE",
+    "locality": "01",
+    "work_gpci": 1.006,
+    "pe_gpci": 1.021,
+    "mp_gpci": 1.023,
+    "mac": "12102"
+  },
+  "FORT LAUDERDALE-3": {
+    "name": "FORT LAUDERDALE",
+    "state": "",
+    "locality": "03",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.006,
+    "mp_gpci": 1.828,
+    "mac": "09102"
+  },
+  "MIAMI-4": {
+    "name": "MIAMI",
+    "state": "",
+    "locality": "04",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.026,
+    "mp_gpci": 2.598,
+    "mac": "09102"
+  },
+  "REST OF FLORIDA-99": {
+    "name": "REST OF FLORIDA",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.946,
+    "mp_gpci": 1.396,
+    "mac": "09102"
+  },
+  "ATLANTA-1": {
+    "name": "ATLANTA",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.998,
+    "mp_gpci": 0.996,
+    "mac": "10212"
+  },
+  "REST OF GEORGIA-99": {
+    "name": "REST OF GEORGIA",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.889,
+    "mp_gpci": 0.989,
+    "mac": "10212"
+  },
+  "HAWAII, GUAM-1": {
+    "name": "HAWAII, GUAM",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.006,
+    "pe_gpci": 1.144,
+    "mp_gpci": 0.644,
+    "mac": "01212"
+  },
+  "ID-0": {
+    "name": "IDAHO",
+    "state": "ID",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.89,
+    "mp_gpci": 0.464,
+    "mac": "02202"
+  },
+  "CHICAGO-16": {
+    "name": "CHICAGO",
+    "state": "",
+    "locality": "16",
+    "work_gpci": 1.009,
+    "pe_gpci": 1.039,
+    "mp_gpci": 1.898,
+    "mac": "06102"
+  },
+  "EAST ST. LOUIS-12": {
+    "name": "EAST ST. LOUIS",
+    "state": "",
+    "locality": "12",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.939,
+    "mp_gpci": 1.723,
+    "mac": "06102"
+  },
+  "SUBURBAN CHICAGO-15": {
+    "name": "SUBURBAN CHICAGO",
+    "state": "",
+    "locality": "15",
+    "work_gpci": 1.008,
+    "pe_gpci": 1.057,
+    "mp_gpci": 1.535,
+    "mac": "06102"
+  },
+  "REST OF ILLINOIS-99": {
+    "name": "REST OF ILLINOIS",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.916,
+    "mp_gpci": 1.195,
+    "mac": "06102"
+  },
+  "IN-0": {
+    "name": "INDIANA",
+    "state": "IN",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.91,
+    "mp_gpci": 0.422,
+    "mac": "08102"
+  },
+  "IA-0": {
+    "name": "IOWA",
+    "state": "IA",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.907,
+    "mp_gpci": 0.424,
+    "mac": "05102"
+  },
+  "KS-0": {
+    "name": "KANSAS",
+    "state": "KS",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.91,
+    "mp_gpci": 0.536,
+    "mac": "05202"
+  },
+  "KY-0": {
+    "name": "KENTUCKY",
+    "state": "KY",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.874,
+    "mp_gpci": 0.823,
+    "mac": "15102"
+  },
+  "NEW ORLEANS-1": {
+    "name": "NEW ORLEANS",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.947,
+    "mp_gpci": 1.4,
+    "mac": "07202"
+  },
+  "REST OF LOUISIANA-99": {
+    "name": "REST OF LOUISIANA",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.879,
+    "mp_gpci": 1.253,
+    "mac": "07202"
+  },
+  "SOUTHERN MAINE-3": {
+    "name": "SOUTHERN MAINE",
+    "state": "",
+    "locality": "03",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.002,
+    "mp_gpci": 0.661,
+    "mac": "14112"
+  },
+  "REST OF MAINE-99": {
+    "name": "REST OF MAINE",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.91,
+    "mp_gpci": 0.661,
+    "mac": "14112"
+  },
+  "BALTIMORE/SURR. CNTYS-1": {
+    "name": "BALTIMORE/SURR. CNTYS",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.026,
+    "pe_gpci": 1.095,
+    "mp_gpci": 1.304,
+    "mac": "12302"
+  },
+  "REST OF MARYLAND-99": {
+    "name": "REST OF MARYLAND",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.01,
+    "pe_gpci": 1.035,
+    "mp_gpci": 1.076,
+    "mac": "12302"
+  },
+  "METROPOLITAN BOSTON-1": {
+    "name": "METROPOLITAN BOSTON",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.041,
+    "pe_gpci": 1.191,
+    "mp_gpci": 0.952,
+    "mac": "14212"
+  },
+  "REST OF MASSACHUSETTS-99": {
+    "name": "REST OF MASSACHUSETTS",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.023,
+    "pe_gpci": 1.064,
+    "mp_gpci": 0.952,
+    "mac": "14212"
+  },
+  "DETROIT-1": {
+    "name": "DETROIT",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.993,
+    "mp_gpci": 1.657,
+    "mac": "08202"
+  },
+  "REST OF MICHIGAN-99": {
+    "name": "REST OF MICHIGAN",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.915,
+    "mp_gpci": 0.999,
+    "mac": "08202"
+  },
+  "MN-0": {
+    "name": "MINNESOTA",
+    "state": "MN",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.012,
+    "mp_gpci": 0.357,
+    "mac": "06202"
+  },
+  "MS-0": {
+    "name": "MISSISSIPPI",
+    "state": "MS",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.856,
+    "mp_gpci": 0.521,
+    "mac": "07302"
+  },
+  "METROPOLITAN KANSAS CITY-2": {
+    "name": "METROPOLITAN KANSAS CITY",
+    "state": "",
+    "locality": "02",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.959,
+    "mp_gpci": 0.982,
+    "mac": "05302"
+  },
+  "METROPOLITAN ST. LOUIS-1": {
+    "name": "METROPOLITAN ST. LOUIS",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.968,
+    "mp_gpci": 0.971,
+    "mac": "05302"
+  },
+  "REST OF MISSOURI-99": {
+    "name": "REST OF MISSOURI",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.857,
+    "mp_gpci": 0.91,
+    "mac": "05302"
+  },
+  "MT-1": {
+    "name": "MONTANA***",
+    "state": "MT",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.304,
+    "mac": "03202"
+  },
+  "NE-0": {
+    "name": "NEBRASKA",
+    "state": "NE",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.909,
+    "mp_gpci": 0.277,
+    "mac": "05402"
+  },
+  "NV-0": {
+    "name": "NEVADA***",
+    "state": "NV",
+    "locality": "00",
+    "work_gpci": 1.004,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.13,
+    "mac": "01312"
+  },
+  "NH-40": {
+    "name": "NEW HAMPSHIRE",
+    "state": "NH",
+    "locality": "40",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.042,
+    "mp_gpci": 0.984,
+    "mac": "14312"
+  },
+  "NORTHERN NJ-1": {
+    "name": "NORTHERN NJ",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.045,
+    "pe_gpci": 1.19,
+    "mp_gpci": 0.949,
+    "mac": "12402"
+  },
+  "REST OF NEW JERSEY-99": {
+    "name": "REST OF NEW JERSEY",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.03,
+    "pe_gpci": 1.132,
+    "mp_gpci": 0.949,
+    "mac": "12402"
+  },
+  "NM-5": {
+    "name": "NEW MEXICO",
+    "state": "NM",
+    "locality": "05",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.908,
+    "mp_gpci": 1.207,
+    "mac": "04212"
+  },
+  "MANHATTAN-1": {
+    "name": "MANHATTAN",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.054,
+    "pe_gpci": 1.192,
+    "mp_gpci": 1.823,
+    "mac": "13202"
+  },
+  "NYC SUBURBS/LONG ISLAND-2": {
+    "name": "NYC SUBURBS/LONG ISLAND",
+    "state": "",
+    "locality": "02",
+    "work_gpci": 1.044,
+    "pe_gpci": 1.214,
+    "mp_gpci": 2.425,
+    "mac": "13202"
+  },
+  "POUGHKPSIE/N NYC SUBURBS-3": {
+    "name": "POUGHKPSIE/N NYC SUBURBS",
+    "state": "",
+    "locality": "03",
+    "work_gpci": 1.022,
+    "pe_gpci": 1.087,
+    "mp_gpci": 1.479,
+    "mac": "13202"
+  },
+  "QUEENS-4": {
+    "name": "QUEENS",
+    "state": "",
+    "locality": "04",
+    "work_gpci": 1.054,
+    "pe_gpci": 1.214,
+    "mp_gpci": 2.391,
+    "mac": "13292"
+  },
+  "REST OF NEW YORK-99": {
+    "name": "REST OF NEW YORK",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.952,
+    "mp_gpci": 0.673,
+    "mac": "13282"
+  },
+  "NC-0": {
+    "name": "NORTH CAROLINA",
+    "state": "NC",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.93,
+    "mp_gpci": 0.757,
+    "mac": "11502"
+  },
+  "ND-1": {
+    "name": "NORTH DAKOTA***",
+    "state": "ND",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 0.485,
+    "mac": "03302"
+  },
+  "OH-0": {
+    "name": "OHIO",
+    "state": "OH",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.915,
+    "mp_gpci": 1.049,
+    "mac": "15202"
+  },
+  "OK-0": {
+    "name": "OKLAHOMA",
+    "state": "OK",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.886,
+    "mp_gpci": 0.868,
+    "mac": "04312"
+  },
+  "PORTLAND-1": {
+    "name": "PORTLAND",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.016,
+    "pe_gpci": 1.059,
+    "mp_gpci": 0.659,
+    "mac": "02302"
+  },
+  "REST OF OREGON-99": {
+    "name": "REST OF OREGON",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.957,
+    "mp_gpci": 0.659,
+    "mac": "02302"
+  },
+  "METROPOLITAN PHILADELPHIA-1": {
+    "name": "METROPOLITAN PHILADELPHIA",
+    "state": "",
+    "locality": "01",
+    "work_gpci": 1.022,
+    "pe_gpci": 1.079,
+    "mp_gpci": 1.289,
+    "mac": "12502"
+  },
+  "REST OF PENNSYLVANIA-99": {
+    "name": "REST OF PENNSYLVANIA",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.937,
+    "mp_gpci": 0.96,
+    "mac": "12502"
+  },
+  "PUERTO RICO-20": {
+    "name": "PUERTO RICO",
+    "state": "",
+    "locality": "20",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.008,
+    "mp_gpci": 0.988,
+    "mac": "09202"
+  },
+  "RI-1": {
+    "name": "RHODE ISLAND",
+    "state": "RI",
+    "locality": "01",
+    "work_gpci": 1.024,
+    "pe_gpci": 1.049,
+    "mp_gpci": 0.99,
+    "mac": "14412"
+  },
+  "SC-1": {
+    "name": "SOUTH CAROLINA",
+    "state": "SC",
+    "locality": "01",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.907,
+    "mp_gpci": 0.624,
+    "mac": "11202"
+  },
+  "SD-2": {
+    "name": "SOUTH DAKOTA***",
+    "state": "SD",
+    "locality": "02",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 0.368,
+    "mac": "03402"
+  },
+  "TN-35": {
+    "name": "TENNESSEE",
+    "state": "TN",
+    "locality": "35",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.897,
+    "mp_gpci": 0.509,
+    "mac": "10312"
+  },
+  "AUSTIN-31": {
+    "name": "AUSTIN",
+    "state": "",
+    "locality": "31",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.04,
+    "mp_gpci": 0.643,
+    "mac": "04412"
+  },
+  "BEAUMONT-20": {
+    "name": "BEAUMONT",
+    "state": "",
+    "locality": "20",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.934,
+    "mp_gpci": 0.695,
+    "mac": "04412"
+  },
+  "BRAZORIA-9": {
+    "name": "BRAZORIA",
+    "state": "",
+    "locality": "09",
+    "work_gpci": 1.026,
+    "pe_gpci": 1.01,
+    "mp_gpci": 0.695,
+    "mac": "04412"
+  },
+  "DALLAS-11": {
+    "name": "DALLAS",
+    "state": "",
+    "locality": "11",
+    "work_gpci": 1.018,
+    "pe_gpci": 1.02,
+    "mp_gpci": 0.657,
+    "mac": "04412"
+  },
+  "FORT WORTH-28": {
+    "name": "FORT WORTH",
+    "state": "",
+    "locality": "28",
+    "work_gpci": 1.011,
+    "pe_gpci": 0.991,
+    "mp_gpci": 0.643,
+    "mac": "04412"
+  },
+  "GALVESTON-15": {
+    "name": "GALVESTON",
+    "state": "",
+    "locality": "15",
+    "work_gpci": 1.026,
+    "pe_gpci": 1.019,
+    "mp_gpci": 0.695,
+    "mac": "04412"
+  },
+  "HOUSTON-18": {
+    "name": "HOUSTON",
+    "state": "",
+    "locality": "18",
+    "work_gpci": 1.026,
+    "pe_gpci": 1.02,
+    "mp_gpci": 0.918,
+    "mac": "04412"
+  },
+  "REST OF TEXAS-99": {
+    "name": "REST OF TEXAS",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.947,
+    "mp_gpci": 0.69,
+    "mac": "04412"
+  },
+  "UT-9": {
+    "name": "UTAH",
+    "state": "UT",
+    "locality": "09",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.923,
+    "mp_gpci": 0.982,
+    "mac": "03502"
+  },
+  "VT-50": {
+    "name": "VERMONT",
+    "state": "VT",
+    "locality": "50",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.008,
+    "mp_gpci": 0.582,
+    "mac": "14512"
+  },
+  "VA-0": {
+    "name": "VIRGINIA",
+    "state": "VA",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.991,
+    "mp_gpci": 0.903,
+    "mac": "11302"
+  },
+  "VIRGIN ISLANDS-50": {
+    "name": "VIRGIN ISLANDS",
+    "state": "",
+    "locality": "50",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.008,
+    "mp_gpci": 0.988,
+    "mac": "09202"
+  },
+  "SEATTLE (KING CNTY)-2": {
+    "name": "SEATTLE (KING CNTY)",
+    "state": "",
+    "locality": "02",
+    "work_gpci": 1.031,
+    "pe_gpci": 1.17,
+    "mp_gpci": 0.854,
+    "mac": "02402"
+  },
+  "REST OF WASHINGTON-99": {
+    "name": "REST OF WASHINGTON",
+    "state": "",
+    "locality": "99",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.012,
+    "mp_gpci": 0.823,
+    "mac": "02402"
+  },
+  "WV-16": {
+    "name": "WEST VIRGINIA",
+    "state": "WV",
+    "locality": "16",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.857,
+    "mp_gpci": 1.247,
+    "mac": "11402"
+  },
+  "WI-0": {
+    "name": "WISCONSIN",
+    "state": "WI",
+    "locality": "00",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.949,
+    "mp_gpci": 0.322,
+    "mac": "06302"
+  },
+  "WY-21": {
+    "name": "WYOMING***",
+    "state": "WY",
+    "locality": "21",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 0.86,
+    "mac": "03602"
+  }
+}

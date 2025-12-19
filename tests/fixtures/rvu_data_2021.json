@@ -1,0 +1,16 @@
+{
+  "99213": {
+    "desc": "Office o/p est low 20-29 min",
+    "work_rvu": 1.2,
+    "pe_rvu_fac": 0.5,
+    "pe_rvu_nonfac": 1.1,
+    "mp_rvu": 0.09
+  },
+  "12345": {
+    "desc": "Example procedure",
+    "work_rvu": 2.0,
+    "pe_rvu_fac": 0.8,
+    "pe_rvu_nonfac": 1.4,
+    "mp_rvu": 0.12
+  }
+}

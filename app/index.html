@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RVU Calculator & Audit Timeline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better UX */
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .autocomplete-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .autocomplete-item:hover {
+            background-color: #f3f4f6;
+        }
+        .autocomplete-active {
+            background-color: #3b82f6 !important;
+            color: white;
+        }
+        .copy-success {
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Toggle switch styles */
+        .toggle-checkbox:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        .toggle-checkbox:checked ~ .toggle-label {
+            transform: translateX(100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-2">
+                <h1 class="text-4xl font-bold text-gray-900">RVU Calculator & Audit Timeline</h1>
+                <span id="yearBadge" class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">2022</span>
+            </div>
+            <p class="text-gray-600">Calculate GPCI-adjusted RVUs for any CPT code, or track year-over-year RVU changes (2019-2025).</p>
+
+            <div class="flex items-center justify-center mt-4">
+                <div class="inline-flex rounded-lg bg-gray-100 p-1">
+                    <button
+                        id="tabCalculator"
+                        class="px-4 py-2 rounded-md text-sm font-semibold transition-colors bg-blue-600 text-white"
+                        onclick="setActiveView('calculator')"
+                    >
+                        Calculator
+                    </button>
+                    <button
+                        id="tabAudit"
+                        class="px-4 py-2 rounded-md text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-200"
+                        onclick="setActiveView('audit')"
+                    >
+                        Audit Timeline (2019–2025)
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div id="calculatorView">
+
+        <!-- Input Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <!-- Year and Locality Selection -->
+            <div class="mb-6 pb-6 border-b border-gray-200">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="yearSelect" class="block text-sm font-medium text-gray-700 mb-2">
+                            Data Year
+                        </label>
+                        <select
+                            id="yearSelect"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            onchange="handleYearChange()"
+                        >
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022" selected>2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="localitySelect" class="block text-sm font-medium text-gray-700 mb-2">
+                            GPCI Locality
+                        </label>
+                        <select
+                            id="localitySelect"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            onchange="handleLocalityChange()"
+                        >
+                            <!-- Populated dynamically from GPCI data -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+                <!-- CPT/HCPCS Input -->
+                <div class="md:col-span-2">
+                    <label for="cptInput" class="block text-sm font-medium text-gray-700 mb-2">
+                        CPT / HCPCS Code
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="text"
+                            id="cptInput"
+                            placeholder="Enter code (e.g., 99213)"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase"
+                            maxlength="5"
+                            autocomplete="off"
+                        />
+                        <div id="autocomplete-list" class="autocomplete-items hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Place of Service Toggle -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Place of Service
+                    </label>
+                    <div class="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
+                        <button
+                            id="btnNonFacility"
+                            class="flex-1 py-2 px-4 rounded-md font-medium transition-colors bg-blue-600 text-white"
+                            onclick="setPOS('non-facility')"
+                        >
+                            Non-Facility
+                        </button>
+                        <button
+                            id="btnFacility"
+                            class="flex-1 py-2 px-4 rounded-md font-medium transition-colors text-gray-700"
+                            onclick="setPOS('facility')"
+                        >
+                            Facility
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optional Conversion Factor (CMS only) -->
+            <div id="cfContainer" class="mt-4">
+                <label for="cfInput" class="block text-sm font-medium text-gray-700 mb-2">
+                    Conversion Factor (optional) — Match Helper
+                </label>
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-500">$</span>
+                    <input
+                        type="number"
+                        id="cfInput"
+                        placeholder="e.g., 39.69"
+                        step="0.01"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Enter your CF to see estimated payment (Total Adjusted RVUs × CF)</p>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden">
+            <!-- Code Info -->
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-4 mb-6">
+                <div class="flex items-start">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-blue-900" id="resultCode"></h3>
+                        <p class="text-sm text-blue-700" id="resultDesc"></p>
+                    </div>
+                    <span class="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded" id="resultPOS"></span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <!-- CMS Base RVUs -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">CMS Base RVUs</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Work RVU:</span>
+                            <span class="font-semibold" id="baseWork">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">PE RVU (Facility):</span>
+                            <span class="font-semibold" id="basePEFac">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">PE RVU (Non-Fac):</span>
+                            <span class="font-semibold" id="basePENonFac">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">MP RVU:</span>
+                            <span class="font-semibold" id="baseMP">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GPCI -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 id="gpciSectionTitle" class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">GPCI</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Work GPCI:</span>
+                            <span class="font-semibold" id="gpciWork">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">PE GPCI:</span>
+                            <span class="font-semibold" id="gpciPE">-</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">MP GPCI:</span>
+                            <span class="font-semibold" id="gpciMP">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adjusted RVUs -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg shadow-md p-6 border-2 border-blue-200">
+                    <h3 id="adjustedRvuSectionTitle" class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Adjusted RVUs</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Adjusted Work:</span>
+                            <span class="font-semibold" id="adjWork">-</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Adjusted PE:</span>
+                            <span class="font-semibold" id="adjPE">-</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Adjusted MP:</span>
+                            <span class="font-semibold" id="adjMP">-</span>
+                        </div>
+                        <div class="border-t-2 border-blue-300 pt-3 mt-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-900 font-bold">Total Adjusted RVUs:</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xl font-bold text-blue-700" id="totalAdj">-</span>
+                                    <button
+                                        onclick="copyToClipboard()"
+                                        class="p-1 hover:bg-blue-100 rounded transition-colors"
+                                        title="Copy to clipboard"
+                                    >
+                                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Match Helper Result (CMS - Single Card) -->
+            <div id="matchHelper" class="hidden bg-green-50 border-2 border-green-500 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Estimated Payment</h3>
+                        <p class="text-sm text-gray-600">Total Adjusted RVUs × Conversion Factor</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-bold text-green-700" id="estimatedPayment">$0.00</div>
+                        <div class="text-xs text-gray-500 mt-1">
+                            <span id="calcFormula"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multi-Year Comparison Table -->
+        <div id="multiYearSection" class="hidden mb-6">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <!-- Collapsible header -->
+                <button
+                    onclick="toggleMultiYearTable()"
+                    class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors border-b border-gray-200"
+                >
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Multi-Year Comparison (2019-2025)</h3>
+                        <p class="text-sm text-gray-600 text-left">View RVU trends and adjusted values across all available years</p>
+                    </div>
+                    <svg id="multiYearIcon" class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <!-- Table content (collapsible) -->
+                <div id="multiYearContent" class="hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider sticky left-0 bg-gray-50 z-10">Year</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Work RVU</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider" id="multiYearPEHeader">PE RVU</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">MP RVU</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider bg-blue-50">Base Total</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-blue-600 uppercase tracking-wider bg-blue-50">Adj Work</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-blue-600 uppercase tracking-wider bg-blue-50">Adj PE</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-blue-600 uppercase tracking-wider bg-blue-50">Adj MP</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-blue-600 uppercase tracking-wider bg-blue-50 border-l-2 border-blue-300">Total Adj RVU</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-green-700 uppercase tracking-wider bg-green-50" id="multiYearPaymentHeader">Est. Payment</th>
+                                    <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">YoY Change</th>
+                                </tr>
+                            </thead>
+                            <tbody id="multiYearTableBody" class="divide-y divide-gray-100">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Footer with context information -->
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                        <div class="flex items-center justify-between text-sm flex-wrap gap-2">
+                            <span class="text-gray-600">
+                                <strong>Note:</strong> Adjusted values use <span id="multiYearLocalityName" class="font-semibold"></span> GPCI
+                            </span>
+                            <span class="text-gray-600 font-medium" id="multiYearSummary"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-red-700" id="errorText"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+            <button
+                onclick="toggleLegend()"
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            >
+                <h3 class="text-lg font-bold text-gray-900">How We Calculate Adjusted RVUs</h3>
+                <svg id="legendIcon" class="w-5 h-5 text-gray-500 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+            <div id="legendContent" class="hidden px-6 pb-6">
+                <div class="prose prose-sm max-w-none">
+                    <p class="text-gray-700 mb-4">
+                        We start with the <strong>CMS base RVUs</strong> for this CPT/HCPCS code: Work, Practice Expense (PE), and Malpractice (MP).
+                        Because PE is different by place of service, select <strong>Facility</strong> or <strong>Non-facility</strong> to use the right PE value.
+                    </p>
+
+                    <p class="text-gray-700 mb-4">
+                        Then we apply the <strong>selected locality's GPCI</strong> (Geographic Practice Cost Index) to each component:
+                    </p>
+
+                    <ul class="list-disc pl-6 mb-4 text-gray-700 space-y-1">
+                        <li><strong>Adjusted Work RVU</strong> = Work RVU × Locality Work GPCI</li>
+                        <li><strong>Adjusted PE RVU</strong> = PE RVU (by POS) × Locality PE GPCI</li>
+                        <li><strong>Adjusted MP RVU</strong> = MP RVU × Locality MP GPCI</li>
+                    </ul>
+
+                    <p class="text-gray-700 mb-4">
+                        <strong>Total Adjusted RVUs</strong> = Adjusted Work + Adjusted PE + Adjusted MP.
+                    </p>
+
+                    <p class="text-gray-700 mb-4">
+                        If you enter a <strong>Conversion Factor (CF)</strong>, we show an <strong>Estimated Payment</strong> = Total Adjusted RVUs × CF.
+                        (This helps you quickly compare to your own reimbursement schedule.)
+                    </p>
+
+                    <div class="bg-blue-50 border border-blue-200 rounded p-3 mt-4">
+                        <h4 class="font-bold text-gray-900 mb-2">Rounding</h4>
+                        <p class="text-gray-700 text-sm">
+                            Adjusted components and Total Adjusted RVUs are displayed to <strong>4 decimals</strong>.
+                            Estimated payment is shown to <strong>$0.01</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- Audit Timeline View (CMS Base RVUs Only: no GPCI, no dollars) -->
+        <div id="auditView" class="hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">RVU Audit Timeline</h2>
+                        <p class="text-sm text-gray-600">
+                            Compare CMS base RVUs year-over-year (Work, Practice Expense, Malpractice) for 2019–2025.
+                            Pre-introduction years are blank.
+                        </p>
+                    </div>
+                    <div class="text-xs text-gray-500 text-right">
+                        <div><span class="font-semibold">Note:</span> No GPCI, no reimbursement dollars.</div>
+                        <div id="auditDataBadge" class="mt-1"></div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div class="md:col-span-2">
+                        <label for="auditCptInput" class="block text-sm font-medium text-gray-700 mb-2">CPT / HCPCS Code</label>
+                        <div class="relative">
+                            <input
+                                type="text"
+                                id="auditCptInput"
+                                placeholder="Search code (e.g., 99214)"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase"
+                                maxlength="10"
+                                autocomplete="off"
+                            />
+                            <div id="audit-autocomplete-list" class="autocomplete-items hidden"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="auditYearStart" class="block text-sm font-medium text-gray-700 mb-2">From</label>
+                        <select
+                            id="auditYearStart"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value="2019" selected>2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="auditYearEnd" class="block text-sm font-medium text-gray-700 mb-2">To</label>
+                        <select
+                            id="auditYearEnd"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value="2019">2019</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025" selected>2025</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4 mt-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Practice Expense Mode</label>
+                        <div class="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
+                            <button
+                                id="auditPeNonfac"
+                                class="flex-1 py-2 px-3 rounded-md font-medium transition-colors bg-blue-600 text-white"
+                                onclick="setAuditPE('nonfac')"
+                            >
+                                Non-Facility
+                            </button>
+                            <button
+                                id="auditPeFac"
+                                class="flex-1 py-2 px-3 rounded-md font-medium transition-colors text-gray-700"
+                                onclick="setAuditPE('fac')"
+                            >
+                                Facility
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Include Status</label>
+                        <div class="flex flex-wrap gap-3 bg-gray-50 border border-gray-200 rounded-lg p-3">
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditStatusNew" type="checkbox" class="rounded" checked />
+                                <span class="text-green-700 font-medium">New</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditStatusExisting" type="checkbox" class="rounded" checked />
+                                <span class="text-gray-700 font-medium">Existing</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditStatusModified" type="checkbox" class="rounded" checked />
+                                <span class="text-amber-700 font-medium">Modified</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Show Columns</label>
+                        <div class="flex flex-wrap gap-3 bg-gray-50 border border-gray-200 rounded-lg p-3">
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditShowWork" type="checkbox" class="rounded" checked />
+                                <span>Work</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditShowPe" type="checkbox" class="rounded" checked />
+                                <span>PE</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditShowMp" type="checkbox" class="rounded" checked />
+                                <span>MP</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditShowTotal" type="checkbox" class="rounded" checked />
+                                <span class="font-semibold">Total</span>
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input id="auditShowDelta" type="checkbox" class="rounded" checked />
+                                <span>YoY Δ</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="auditMessage" class="mt-5 hidden"></div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <h3 id="auditTimelineTitle" class="text-lg font-bold text-gray-900">Select a CPT code</h3>
+                            <p id="auditTimelineSubtitle" class="text-sm text-gray-600">Shows year-by-year CMS base RVUs.</p>
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+                            onclick="runAuditLookup()"
+                        >
+                            Update
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Year</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                <th id="auditColWork" class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Work</th>
+                                <th id="auditColPe" class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">PE</th>
+                                <th id="auditColMp" class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">MP</th>
+                                <th id="auditColTotal" class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Total</th>
+                                <th id="auditColDelta" class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">YoY Δ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditTimelineBody" class="divide-y divide-gray-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Explore New / Modified Codes</h3>
+                            <p class="text-sm text-gray-600">List codes by year and status to spot negotiation leverage.</p>
+                        </div>
+                        <div class="text-xs text-gray-500" id="auditExplorerSummary"></div>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div>
+                            <label for="auditExploreYear" class="block text-sm font-medium text-gray-700 mb-2">Year</label>
+                            <select
+                                id="auditExploreYear"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025" selected>2025</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="auditExploreStatus" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <select
+                                id="auditExploreStatus"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <option value="new">New</option>
+                                <option value="modified" selected>Modified</option>
+                                <option value="existing">Existing</option>
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label for="auditExploreQuery" class="block text-sm font-medium text-gray-700 mb-2">Search (optional)</label>
+                            <input
+                                id="auditExploreQuery"
+                                type="text"
+                                placeholder="Filter by code prefix or description"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="text-xs text-gray-500">
+                            Shows up to <span class="font-semibold">200</span> results. Use a search filter for faster scans.
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+                            onclick="runAuditExplorer()"
+                        >
+                            Run
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Code</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Description</th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Work</th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">PE</th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">MP</th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditExplorerBody" class="divide-y divide-gray-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-500 text-sm">
+            <p>RVU Calculator v1.0 • Data based on CMS Fee Schedule</p>
+        </footer>
+    </div>
+
+    <script>
+        // Global state
+        let rvuData = {};
+        let gpciData = {};
+        let metadata = {};
+        let currentPOS = 'non-facility';
+        let currentCode = null;
+
+        // Multi-year support
+        let currentYear = 2022;
+        const preferredState = 'UT'; // Default selection preference
+        let currentLocality = null;
+        let rvuDataByYear = {};   // Cache: {2022: {...}, 2023: {...}}
+        let gpciDataByYear = {};  // Cache: {2022: {...}, 2023: {...}}
+        let localityPopulated = false;
+
+        // Data version - update this when data files change to force cache refresh
+        const DATA_VERSION = '20251219_v2';
+
+        function toDataUrl(relativePath) {
+            const baseUrl = new URL('.', window.location.href);
+            const url = new URL(relativePath, baseUrl);
+            url.searchParams.set('v', DATA_VERSION);
+            return url.toString();
+        }
+
+        async function fetchJson(relativePath) {
+            const url = toDataUrl(relativePath);
+            const resp = await fetch(url, {
+                cache: 'no-store'
+            });
+
+            if (!resp.ok) {
+                const preview = await resp.text().catch(() => '');
+                const hint = preview && preview.trim().startsWith('<')
+                    ? ' (server returned HTML; check that you are serving from the app/ folder)'
+                    : '';
+                throw new Error(`Failed to load ${relativePath} (HTTP ${resp.status})${hint}`);
+            }
+
+            const contentType = (resp.headers.get('content-type') || '').toLowerCase();
+            if (contentType && !contentType.includes('application/json')) {
+                const preview = await resp.text().catch(() => '');
+                const snippet = preview ? ` Preview: ${preview.slice(0, 200)}` : '';
+                throw new Error(`Unexpected content-type for ${relativePath}: ${contentType}.${snippet}`);
+            }
+
+            return await resp.json();
+        }
+
+        function validateRvuDatasetShape(year, dataset) {
+            const sampleCode = dataset && (dataset['99214'] ? '99214' : Object.keys(dataset || {})[0]);
+            if (!sampleCode) {
+                throw new Error(`RVU dataset for ${year} is empty.`);
+            }
+            const sample = dataset[sampleCode];
+            const ok = sample && typeof sample === 'object'
+                && typeof sample.work_rvu === 'number'
+                && typeof sample.pe_rvu_fac === 'number'
+                && typeof sample.pe_rvu_nonfac === 'number'
+                && typeof sample.mp_rvu === 'number';
+
+            if (!ok) {
+                throw new Error(`RVU dataset for ${year} is not in the expected format (sample ${sampleCode}).`);
+            }
+
+            // Basic sanity check: work RVU should be small (not in the thousands)
+            if (sample.work_rvu > 100 || sample.work_rvu < 0) {
+                throw new Error(
+                    `RVU dataset for ${year} appears incorrect (sample ${sampleCode} work_rvu=${sample.work_rvu}). ` +
+                    'This usually means the browser loaded a stale cached response or the server served the wrong path.'
+                );
+            }
+        }
+
+        // Audit timeline state (loaded lazily)
+        let rvuTimelineData = null;
+        let timelineCodeList = [];
+        let auditState = {
+            peMode: 'nonfac',
+            yearStart: 2019,
+            yearEnd: 2025,
+            showWork: true,
+            showPe: true,
+            showMp: true,
+            showTotal: true,
+            showDelta: true,
+            includeNew: true,
+            includeExisting: true,
+            includeModified: true
+        };
+
+        // Load data for a specific year
+        async function loadYearData(year) {
+            if (rvuDataByYear[year] && gpciDataByYear[year]) {
+                console.log(`Year ${year} data already cached`);
+                return; // Already loaded
+            }
+
+            console.log(`Loading data for year ${year}...`);
+
+            try {
+                // Load RVU data for this year
+                rvuDataByYear[year] = await fetchJson(`data/processed/rvu_data_${year}.json`);
+                validateRvuDatasetShape(year, rvuDataByYear[year]);
+                console.log(`Loaded ${Object.keys(rvuDataByYear[year]).length} CPT codes for ${year}`);
+
+                // Load GPCI data for this year
+                gpciDataByYear[year] = await fetchJson(`data/processed/gpci_data_${year}.json`);
+                console.log(`Loaded ${Object.keys(gpciDataByYear[year]).length} localities for ${year}`);
+
+                // Populate locality dropdown (first time only)
+                if (!localityPopulated) {
+                    populateLocalityDropdown(gpciDataByYear[year]);
+                    localityPopulated = true;
+                }
+
+                // Update current references to point to selected year
+                rvuData = rvuDataByYear[year];
+                gpciData = gpciDataByYear[year];
+
+                // Ensure current locality exists for this year
+                if (localityPopulated) {
+                    const select = document.getElementById('localitySelect');
+                    if (select && (!currentLocality || !gpciData[currentLocality])) {
+                        const entries = Object.entries(gpciData);
+                        const preferred = entries.find(([, v]) => (v.state || '').toUpperCase() === preferredState);
+                        currentLocality = preferred ? preferred[0] : (entries.length ? entries[0][0] : null);
+                        if (currentLocality) {
+                            select.value = currentLocality;
+                        }
+                    }
+                }
+
+            } catch (error) {
+                console.error(`Error loading data for year ${year}:`, error);
+                showError(`Failed to load data for year ${year}. Please ensure data files are present.`);
+            }
+        }
+
+        // Populate locality dropdown from GPCI data
+        function populateLocalityDropdown(gpciData) {
+            const select = document.getElementById('localitySelect');
+            select.innerHTML = '';
+
+            // Convert to array and sort by state name
+            const localities = Object.entries(gpciData).sort((a, b) => {
+                const nameA = a[1].name || a[1].state || a[0];
+                const nameB = b[1].name || b[1].state || b[0];
+                return nameA.localeCompare(nameB);
+            });
+
+            // Add options
+            for (const [code, locality] of localities) {
+                const option = document.createElement('option');
+                option.value = code;
+
+                const displayName = locality.name || locality.state || code;
+                const state = (locality.state || '').toUpperCase();
+                const localityNum = locality.locality ? ` ${locality.locality}` : '';
+                const suffix = state ? ` (${state}${localityNum})` : '';
+                option.textContent = displayName;
+
+                const isPreferred = state === preferredState || /\butah\b/i.test(displayName);
+                if (isPreferred) {
+                    option.selected = true;
+                    currentLocality = code;
+                }
+                select.appendChild(option);
+            }
+
+            // If preferred state not found, default to first option.
+            if (!currentLocality && select.options.length) {
+                select.selectedIndex = 0;
+                currentLocality = select.value;
+            }
+
+            console.log(`Populated locality dropdown with ${localities.length} options`);
+        }
+
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Load metadata
+                metadata = await fetchJson('data/processed/metadata.json');
+                console.log('Loaded metadata:', metadata);
+
+                // Load default year (2022) data
+                await loadYearData(currentYear);
+
+                // Setup event listeners
+                setupEventListeners();
+
+                // Default view
+                setActiveView('calculator');
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError(`Failed to load RVU data. ${error && error.message ? error.message : ''}`);
+            }
+        });
+
+        function setupEventListeners() {
+            const input = document.getElementById('cptInput');
+            const cfInput = document.getElementById('cfInput');
+            const auditInput = document.getElementById('auditCptInput');
+
+            // CPT input - lookup on enter or blur
+            input.addEventListener('input', handleAutocomplete);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const list = document.getElementById('autocomplete-list');
+                    const active = list.querySelector('.autocomplete-active');
+                    if (active) {
+                        active.click();
+                    } else {
+                        lookupCode(input.value.toUpperCase().trim());
+                    }
+                }
+            });
+
+            // CF input - recalculate on change
+            cfInput.addEventListener('input', () => {
+                if (currentCode) {
+                    calculateAndDisplay(currentCode);
+                    // Refresh multi-year payment calculations
+                    if (document.getElementById('multiYearSection').classList.contains('hidden') === false) {
+                        populateMultiYearComparison(currentCode);
+                    }
+                }
+            });
+
+            // Provider type - recalculate on change (only when present)
+            const providerType = document.getElementById('providerType');
+            if (providerType) {
+                providerType.addEventListener('change', () => {
+                    if (currentCode) {
+                        calculateAndDisplay(currentCode);
+                    }
+                });
+            }
+
+            // Click outside to close autocomplete
+            document.addEventListener('click', (e) => {
+                if (e.target !== input) {
+                    document.getElementById('autocomplete-list').classList.add('hidden');
+                }
+
+                if (e.target !== auditInput) {
+                    document.getElementById('audit-autocomplete-list').classList.add('hidden');
+                }
+            });
+
+            // Audit input
+            auditInput.addEventListener('input', handleAuditAutocomplete);
+            auditInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const list = document.getElementById('audit-autocomplete-list');
+                    const active = list.querySelector('.autocomplete-active');
+                    if (active) {
+                        active.click();
+                    } else {
+                        runAuditLookup();
+                    }
+                }
+            });
+
+            // Audit filters
+            document.getElementById('auditYearStart').addEventListener('change', () => {
+                auditState.yearStart = parseInt(document.getElementById('auditYearStart').value, 10);
+            });
+            document.getElementById('auditYearEnd').addEventListener('change', () => {
+                auditState.yearEnd = parseInt(document.getElementById('auditYearEnd').value, 10);
+            });
+            document.getElementById('auditStatusNew').addEventListener('change', () => {
+                auditState.includeNew = document.getElementById('auditStatusNew').checked;
+            });
+            document.getElementById('auditStatusExisting').addEventListener('change', () => {
+                auditState.includeExisting = document.getElementById('auditStatusExisting').checked;
+            });
+            document.getElementById('auditStatusModified').addEventListener('change', () => {
+                auditState.includeModified = document.getElementById('auditStatusModified').checked;
+            });
+            document.getElementById('auditShowWork').addEventListener('change', () => {
+                auditState.showWork = document.getElementById('auditShowWork').checked;
+                renderAuditColumnVisibility();
+            });
+            document.getElementById('auditShowPe').addEventListener('change', () => {
+                auditState.showPe = document.getElementById('auditShowPe').checked;
+                renderAuditColumnVisibility();
+            });
+            document.getElementById('auditShowMp').addEventListener('change', () => {
+                auditState.showMp = document.getElementById('auditShowMp').checked;
+                renderAuditColumnVisibility();
+            });
+            document.getElementById('auditShowTotal').addEventListener('change', () => {
+                auditState.showTotal = document.getElementById('auditShowTotal').checked;
+                renderAuditColumnVisibility();
+            });
+            document.getElementById('auditShowDelta').addEventListener('change', () => {
+                auditState.showDelta = document.getElementById('auditShowDelta').checked;
+                renderAuditColumnVisibility();
+            });
+        }
+
+        function setActiveView(view) {
+            const calculatorTab = document.getElementById('tabCalculator');
+            const auditTab = document.getElementById('tabAudit');
+            const calculatorView = document.getElementById('calculatorView');
+            const auditView = document.getElementById('auditView');
+
+            if (view === 'audit') {
+                calculatorTab.className = 'px-4 py-2 rounded-md text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-200';
+                auditTab.className = 'px-4 py-2 rounded-md text-sm font-semibold transition-colors bg-blue-600 text-white';
+                calculatorView.classList.add('hidden');
+                auditView.classList.remove('hidden');
+                loadTimelineDataIfNeeded();
+                renderAuditColumnVisibility();
+                return;
+            }
+
+            auditTab.className = 'px-4 py-2 rounded-md text-sm font-semibold transition-colors text-gray-700 hover:bg-gray-200';
+            calculatorTab.className = 'px-4 py-2 rounded-md text-sm font-semibold transition-colors bg-blue-600 text-white';
+            auditView.classList.add('hidden');
+            calculatorView.classList.remove('hidden');
+        }
+
+        async function loadTimelineDataIfNeeded() {
+            if (rvuTimelineData) {
+                return;
+            }
+
+            const badge = document.getElementById('auditDataBadge');
+            badge.innerHTML = '<span class="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700">Loading timeline…</span>';
+            hideAuditMessage();
+
+            try {
+                rvuTimelineData = await fetchJson('data/processed/rvu_timeline_2019_2025.json');
+
+                const years = (rvuTimelineData.meta && rvuTimelineData.meta.years) ? rvuTimelineData.meta.years : null;
+                const missingYears = (rvuTimelineData.meta && rvuTimelineData.meta.missing_years) ? rvuTimelineData.meta.missing_years : [];
+                const codes = rvuTimelineData.codes || {};
+                timelineCodeList = Object.keys(codes);
+                timelineCodeList.sort();
+
+                const yearText = years ? `${years[0]}–${years[years.length - 1]}` : 'Timeline';
+                const missingText = (missingYears && missingYears.length) ? ` • Missing: ${missingYears.join(', ')}` : '';
+                badge.innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-800">Loaded ${timelineCodeList.length.toLocaleString()} codes (${yearText})</span>` +
+                    (missingText ? `<div class="mt-1 text-xs text-amber-700">${missingText}</div>` : '');
+
+                showAuditMessage(
+                    'Tip: Start with a code (e.g., 99214), or use the explorer to find modified codes in a given year.',
+                    'info'
+                );
+            } catch (error) {
+                console.warn('Timeline data not available:', error);
+                badge.innerHTML = '<span class="inline-flex items-center px-2 py-1 rounded bg-amber-100 text-amber-800">Timeline data not found</span>';
+                showAuditMessage(
+                    'Timeline data file is missing. Build it with: python3 scripts/build_rvu_timeline.py --year 2019 <json> ... --out app/data/processed/rvu_timeline_2019_2025.json',
+                    'warning'
+                );
+            }
+        }
+
+        function setAuditPE(mode) {
+            auditState.peMode = mode;
+            const nonfacBtn = document.getElementById('auditPeNonfac');
+            const facBtn = document.getElementById('auditPeFac');
+
+            if (mode === 'fac') {
+                facBtn.className = 'flex-1 py-2 px-3 rounded-md font-medium transition-colors bg-blue-600 text-white';
+                nonfacBtn.className = 'flex-1 py-2 px-3 rounded-md font-medium transition-colors text-gray-700';
+            } else {
+                nonfacBtn.className = 'flex-1 py-2 px-3 rounded-md font-medium transition-colors bg-blue-600 text-white';
+                facBtn.className = 'flex-1 py-2 px-3 rounded-md font-medium transition-colors text-gray-700';
+            }
+        }
+
+        function showAuditMessage(text, tone) {
+            const el = document.getElementById('auditMessage');
+            const styles = {
+                info: 'bg-blue-50 border border-blue-200 text-blue-900',
+                warning: 'bg-amber-50 border border-amber-200 text-amber-900',
+                error: 'bg-red-50 border border-red-200 text-red-900'
+            };
+            el.className = `mt-5 rounded-lg p-3 text-sm ${styles[tone] || styles.info}`;
+            el.textContent = text;
+            el.classList.remove('hidden');
+        }
+
+        function hideAuditMessage() {
+            const el = document.getElementById('auditMessage');
+            el.classList.add('hidden');
+        }
+
+        function formatRvuValue(value) {
+            if (value === null || value === undefined) {
+                return '—';
+            }
+            const num = Number(value);
+            if (Number.isNaN(num)) {
+                return '—';
+            }
+            return num.toFixed(4);
+        }
+
+        function formatDeltaValue(value) {
+            if (value === null || value === undefined) {
+                return '—';
+            }
+            const num = Number(value);
+            if (Number.isNaN(num)) {
+                return '—';
+            }
+
+            const sign = num > 0 ? '+' : '';
+            const color = num > 0 ? 'text-green-700' : (num < 0 ? 'text-red-700' : 'text-gray-600');
+            return `<span class="${color} font-medium">${sign}${num.toFixed(4)}</span>`;
+        }
+
+        function getStatusBadge(status, year) {
+            if (!status) {
+                return `<span class="text-gray-400">—</span>`;
+            }
+            const map = {
+                new: 'bg-green-100 text-green-800',
+                existing: 'bg-gray-100 text-gray-800',
+                modified: 'bg-amber-100 text-amber-800'
+            };
+            const missingYears = (rvuTimelineData && rvuTimelineData.meta && Array.isArray(rvuTimelineData.meta.missing_years))
+                ? rvuTimelineData.meta.missing_years
+                : [];
+            const hasEarlierMissing = missingYears.some((y) => Number(y) < Number(year));
+            const label = status === 'new'
+                ? (hasEarlierMissing ? `First seen in ${year}` : `New in ${year}`)
+                : status;
+            return `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold ${map[status] || 'bg-gray-100 text-gray-800'}">${label}</span>`;
+        }
+
+        function renderAuditColumnVisibility() {
+            document.getElementById('auditColWork').classList.toggle('hidden', !auditState.showWork);
+            document.getElementById('auditColPe').classList.toggle('hidden', !auditState.showPe);
+            document.getElementById('auditColMp').classList.toggle('hidden', !auditState.showMp);
+            document.getElementById('auditColTotal').classList.toggle('hidden', !auditState.showTotal);
+            document.getElementById('auditColDelta').classList.toggle('hidden', !auditState.showDelta);
+
+            const rows = document.querySelectorAll('#auditTimelineBody tr');
+            rows.forEach((row) => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length < 7) {
+                    return;
+                }
+                cells[2].classList.toggle('hidden', !auditState.showWork);
+                cells[3].classList.toggle('hidden', !auditState.showPe);
+                cells[4].classList.toggle('hidden', !auditState.showMp);
+                cells[5].classList.toggle('hidden', !auditState.showTotal);
+                cells[6].classList.toggle('hidden', !auditState.showDelta);
+            });
+        }
+
+        function getTimelineYears() {
+            if (rvuTimelineData && rvuTimelineData.meta && Array.isArray(rvuTimelineData.meta.years)) {
+                return rvuTimelineData.meta.years;
+            }
+            return [2019, 2020, 2021, 2022, 2023, 2024, 2025];
+        }
+
+        function getDescForYear(entry, year) {
+            const overrides = entry.desc_overrides || {};
+            const override = overrides[String(year)];
+            if (override) {
+                return override;
+            }
+            return entry.desc || '';
+        }
+
+        function getPeForYear(entry, index) {
+            const peArray = auditState.peMode === 'fac' ? entry.pe_rvu_fac : entry.pe_rvu_nonfac;
+            if (!Array.isArray(peArray)) {
+                return null;
+            }
+            return peArray[index];
+        }
+
+        function getTotalForYear(entry, index) {
+            const w = Array.isArray(entry.work_rvu) ? entry.work_rvu[index] : null;
+            const pe = getPeForYear(entry, index);
+            const mp = Array.isArray(entry.mp_rvu) ? entry.mp_rvu[index] : null;
+            if (w === null || pe === null || mp === null || w === undefined || pe === undefined || mp === undefined) {
+                return null;
+            }
+            return Number(w) + Number(pe) + Number(mp);
+        }
+
+        function statusIncluded(status) {
+            if (!status) {
+                return true;
+            }
+            if (status === 'new') {
+                return auditState.includeNew;
+            }
+            if (status === 'existing') {
+                return auditState.includeExisting;
+            }
+            if (status === 'modified') {
+                return auditState.includeModified;
+            }
+            return true;
+        }
+
+        function runAuditLookup() {
+            if (!rvuTimelineData || !rvuTimelineData.codes) {
+                showAuditMessage('Timeline data not loaded yet (or missing).', 'warning');
+                return;
+            }
+
+            const code = document.getElementById('auditCptInput').value.toUpperCase().trim();
+            if (!code) {
+                showAuditMessage('Enter a CPT/HCPCS code to display its timeline.', 'info');
+                return;
+            }
+
+            const entry = rvuTimelineData.codes[code];
+            if (!entry) {
+                showAuditMessage(`Code "${code}" not found in timeline dataset.`, 'warning');
+                document.getElementById('auditTimelineTitle').textContent = 'Code not found';
+                document.getElementById('auditTimelineSubtitle').textContent = 'Try another code, or use the explorer.';
+                document.getElementById('auditTimelineBody').innerHTML = '';
+                return;
+            }
+
+            const years = getTimelineYears();
+            const startYear = Math.min(auditState.yearStart, auditState.yearEnd);
+            const endYear = Math.max(auditState.yearStart, auditState.yearEnd);
+            const startIdx = years.indexOf(startYear);
+            const endIdx = years.indexOf(endYear);
+
+            if (startIdx === -1 || endIdx === -1) {
+                showAuditMessage('Selected year range is not available in this dataset.', 'warning');
+                return;
+            }
+
+            const desc = entry.desc || '';
+            document.getElementById('auditTimelineTitle').textContent = `${code} — ${desc}`;
+            const missingYears = (rvuTimelineData && rvuTimelineData.meta && Array.isArray(rvuTimelineData.meta.missing_years))
+                ? rvuTimelineData.meta.missing_years
+                : [];
+            const statusNote = missingYears.length ? ' • Statuses may be incomplete (missing years)' : '';
+            document.getElementById('auditTimelineSubtitle').textContent = `PE mode: ${auditState.peMode === 'fac' ? 'Facility' : 'Non-Facility'} • Values shown to 4 decimals${statusNote}`;
+
+            let prevTotal = null;
+            const rows = [];
+            for (let i = startIdx; i <= endIdx; i++) {
+                const year = years[i];
+                const status = Array.isArray(entry.status) ? entry.status[i] : null;
+                const included = statusIncluded(status);
+
+                const work = Array.isArray(entry.work_rvu) ? entry.work_rvu[i] : null;
+                const pe = getPeForYear(entry, i);
+                const mp = Array.isArray(entry.mp_rvu) ? entry.mp_rvu[i] : null;
+                const total = getTotalForYear(entry, i);
+                const delta = (total !== null && prevTotal !== null) ? (total - prevTotal) : null;
+
+                if (total !== null) {
+                    prevTotal = total;
+                }
+
+                rows.push({
+                    year,
+                    status,
+                    included,
+                    work,
+                    pe,
+                    mp,
+                    total,
+                    delta,
+                    yearDesc: getDescForYear(entry, year)
+                });
+            }
+
+            const body = document.getElementById('auditTimelineBody');
+            body.innerHTML = rows.map((r) => {
+                const muted = (!r.included && r.status) ? 'opacity-40' : '';
+                const descTip = r.yearDesc && r.yearDesc !== desc ? `title="${r.yearDesc.replace(/\"/g, '&quot;')}"` : '';
+                return `
+                    <tr class="${muted} hover:bg-gray-50">
+                        <td class="px-6 py-3 text-sm font-semibold text-gray-900">${r.year}</td>
+                        <td class="px-6 py-3 text-sm" ${descTip}>${getStatusBadge(r.status, r.year)}</td>
+                        <td class="px-6 py-3 text-sm text-right text-gray-800">${formatRvuValue(r.work)}</td>
+                        <td class="px-6 py-3 text-sm text-right text-gray-800">${formatRvuValue(r.pe)}</td>
+                        <td class="px-6 py-3 text-sm text-right text-gray-800">${formatRvuValue(r.mp)}</td>
+                        <td class="px-6 py-3 text-sm text-right font-semibold text-gray-900">${formatRvuValue(r.total)}</td>
+                        <td class="px-6 py-3 text-sm text-right">${formatDeltaValue(r.delta)}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            renderAuditColumnVisibility();
+            hideAuditMessage();
+        }
+
+        function handleAuditAutocomplete() {
+            const input = document.getElementById('auditCptInput');
+            const value = input.value.toUpperCase().trim();
+            const list = document.getElementById('audit-autocomplete-list');
+
+            if (!rvuTimelineData || !rvuTimelineData.codes || !timelineCodeList.length) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            if (value.length < 2) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            const matches = [];
+            const maxResults = 10;
+            for (let i = 0; i < timelineCodeList.length; i++) {
+                const code = timelineCodeList[i];
+                if (code.startsWith(value)) {
+                    matches.push(code);
+                    if (matches.length >= maxResults) {
+                        break;
+                    }
+                }
+            }
+
+            if (!matches.length) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            list.innerHTML = matches.map((code) => {
+                const entry = rvuTimelineData.codes[code];
+                const desc = entry && entry.desc ? entry.desc : '';
+                return `<div class="autocomplete-item px-4 py-2 hover:bg-gray-100 cursor-pointer" onclick="selectAuditCode('${code}')">
+                    <div class="flex justify-between gap-3">
+                        <span class="font-semibold">${code}</span>
+                        <span class="text-xs text-gray-500 truncate" title="${desc.replace(/\"/g, '&quot;')}">${desc}</span>
+                    </div>
+                </div>`;
+            }).join('');
+
+            list.classList.remove('hidden');
+        }
+
+        function selectAuditCode(code) {
+            const input = document.getElementById('auditCptInput');
+            input.value = code;
+            document.getElementById('audit-autocomplete-list').classList.add('hidden');
+            runAuditLookup();
+        }
+
+        function runAuditExplorer() {
+            const body = document.getElementById('auditExplorerBody');
+            const summary = document.getElementById('auditExplorerSummary');
+
+            body.innerHTML = '';
+            summary.textContent = '';
+
+            if (!rvuTimelineData || !rvuTimelineData.codes) {
+                showAuditMessage('Timeline data not loaded yet (or missing).', 'warning');
+                return;
+            }
+
+            const years = getTimelineYears();
+            const year = parseInt(document.getElementById('auditExploreYear').value, 10);
+            const statusWanted = document.getElementById('auditExploreStatus').value;
+            const q = document.getElementById('auditExploreQuery').value.trim().toLowerCase();
+
+            const yearIndex = years.indexOf(year);
+            if (yearIndex === -1) {
+                showAuditMessage('Selected year is not available in this dataset.', 'warning');
+                return;
+            }
+
+            const rows = [];
+            for (let i = 0; i < timelineCodeList.length; i++) {
+                const code = timelineCodeList[i];
+                const entry = rvuTimelineData.codes[code];
+                const status = Array.isArray(entry.status) ? entry.status[yearIndex] : null;
+                if (status !== statusWanted) {
+                    continue;
+                }
+                const desc = getDescForYear(entry, year) || entry.desc || '';
+
+                if (q) {
+                    const codeMatch = code.toLowerCase().startsWith(q);
+                    const descMatch = desc.toLowerCase().includes(q);
+                    if (!codeMatch && !descMatch) {
+                        continue;
+                    }
+                }
+
+                const work = Array.isArray(entry.work_rvu) ? entry.work_rvu[yearIndex] : null;
+                const pe = getPeForYear(entry, yearIndex);
+                const mp = Array.isArray(entry.mp_rvu) ? entry.mp_rvu[yearIndex] : null;
+                const total = getTotalForYear(entry, yearIndex);
+                if (total === null) {
+                    continue;
+                }
+                rows.push({ code, desc, work, pe, mp, total });
+            }
+
+            rows.sort((a, b) => b.total - a.total);
+            const limited = rows.slice(0, 200);
+            const missingYears = (rvuTimelineData && rvuTimelineData.meta && Array.isArray(rvuTimelineData.meta.missing_years))
+                ? rvuTimelineData.meta.missing_years
+                : [];
+            const warning = missingYears.length ? ' • statuses may be incomplete (missing years)' : '';
+            summary.textContent = `${rows.length.toLocaleString()} matches • showing ${limited.length.toLocaleString()} (sorted by Total)${warning}`;
+
+            body.innerHTML = limited.map((r) => {
+                return `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-3 text-sm font-semibold text-gray-900">${r.code}</td>
+                        <td class="px-6 py-3 text-sm text-gray-700">${r.desc}</td>
+                        <td class="px-6 py-3 text-sm text-right text-gray-800">${formatRvuValue(r.work)}</td>
+                        <td class="px-6 py-3 text-sm text-right text-gray-800">${formatRvuValue(r.pe)}</td>
+                        <td class="px-6 py-3 text-sm text-right text-gray-800">${formatRvuValue(r.mp)}</td>
+                        <td class="px-6 py-3 text-sm text-right font-semibold text-gray-900">${formatRvuValue(r.total)}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            hideAuditMessage();
+        }
+
+        // Handle year selection change
+        async function handleYearChange() {
+            const yearSelect = document.getElementById('yearSelect');
+            const newYear = parseInt(yearSelect.value);
+
+            if (newYear === currentYear) return;
+
+            currentYear = newYear;
+            console.log(`Switching to year ${currentYear}`);
+
+            // Load data for the new year
+            await loadYearData(currentYear);
+
+            // Update year badge
+            document.getElementById('yearBadge').textContent = currentYear;
+
+            // Recalculate if we have a code
+            if (currentCode) {
+                calculateAndDisplay(currentCode);
+                // Update multi-year table highlight
+                if (document.getElementById('multiYearSection').classList.contains('hidden') === false) {
+                    populateMultiYearComparison(currentCode);
+                }
+            }
+        }
+
+        // Handle locality selection change
+        function handleLocalityChange() {
+            const localitySelect = document.getElementById('localitySelect');
+            currentLocality = localitySelect.value;
+
+            console.log(`Switching to locality ${currentLocality}`);
+
+            // Recalculate if we have a code
+            if (currentCode) {
+                calculateAndDisplay(currentCode);
+                // Refresh multi-year table with new locality
+                if (document.getElementById('multiYearSection').classList.contains('hidden') === false) {
+                    populateMultiYearComparison(currentCode);
+                }
+            }
+        }
+
+        function handleAutocomplete(e) {
+            const val = e.target.value.toUpperCase();
+            const list = document.getElementById('autocomplete-list');
+
+            if (val.length < 2) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            // Find matching codes
+            const matches = Object.keys(rvuData)
+                .filter(code => code.startsWith(val))
+                .slice(0, 10);
+
+            if (matches.length === 0) {
+                list.classList.add('hidden');
+                return;
+            }
+
+            // Build autocomplete list
+            list.innerHTML = matches.map(code => `
+                <div class="autocomplete-item" onclick="selectCode('${code}')">
+                    <div class="font-semibold text-gray-900">${code}</div>
+                    <div class="text-xs text-gray-600">${rvuData[code].desc}</div>
+                </div>
+            `).join('');
+
+            list.classList.remove('hidden');
+        }
+
+        function selectCode(code) {
+            document.getElementById('cptInput').value = code;
+            document.getElementById('autocomplete-list').classList.add('hidden');
+            lookupCode(code);
+        }
+
+        function setPOS(pos) {
+            currentPOS = pos;
+
+            // Update button styles
+            const btnFacility = document.getElementById('btnFacility');
+            const btnNonFacility = document.getElementById('btnNonFacility');
+
+            if (pos === 'facility') {
+                btnFacility.className = 'flex-1 py-2 px-4 rounded-md font-medium transition-colors bg-blue-600 text-white';
+                btnNonFacility.className = 'flex-1 py-2 px-4 rounded-md font-medium transition-colors text-gray-700';
+            } else {
+                btnNonFacility.className = 'flex-1 py-2 px-4 rounded-md font-medium transition-colors bg-blue-600 text-white';
+                btnFacility.className = 'flex-1 py-2 px-4 rounded-md font-medium transition-colors text-gray-700';
+            }
+
+            // Recalculate if we have a code
+            if (currentCode) {
+                calculateAndDisplay(currentCode);
+                // Refresh multi-year table with new POS
+                if (document.getElementById('multiYearSection').classList.contains('hidden') === false) {
+                    populateMultiYearComparison(currentCode);
+                }
+            }
+        }
+
+        function lookupCode(code) {
+            code = code.toUpperCase().trim();
+
+            if (!code) {
+                return;
+            }
+
+            if (!rvuData[code]) {
+                showError(`Code "${code}" not found in database. Please check the code and try again.`);
+                hideResults();
+                return;
+            }
+
+            currentCode = code;
+            hideError();
+            calculateAndDisplay(code);
+        }
+
+        function calculateAndDisplay(code) {
+            const data = rvuData[code];
+            const gpci = gpciData[currentLocality];
+
+            if (!gpci) {
+                showError(`GPCI data not available for locality ${currentLocality}.`);
+                return;
+            }
+
+            // Get the right PE value based on POS
+            const peRVU = currentPOS === 'facility' ? data.pe_rvu_fac : data.pe_rvu_nonfac;
+
+            // Calculate adjusted RVUs
+            const adjWork = data.work_rvu * gpci.work_gpci;
+            const adjPE = peRVU * gpci.pe_gpci;
+            const adjMP = data.mp_rvu * gpci.mp_gpci;
+            const totalAdj = adjWork + adjPE + adjMP;
+
+            // Display code info
+            document.getElementById('resultCode').textContent = code;
+            document.getElementById('resultDesc').textContent = data.desc;
+            document.getElementById('resultPOS').textContent = currentPOS === 'facility' ? 'Facility' : 'Non-Facility';
+
+            // Display CMS base values
+            document.getElementById('baseWork').textContent = data.work_rvu.toFixed(2);
+            document.getElementById('basePEFac').textContent = data.pe_rvu_fac.toFixed(2);
+            document.getElementById('basePENonFac').textContent = data.pe_rvu_nonfac.toFixed(2);
+            document.getElementById('baseMP').textContent = data.mp_rvu.toFixed(2);
+
+            // Display GPCI values
+            document.getElementById('gpciWork').textContent = gpci.work_gpci.toFixed(3);
+            document.getElementById('gpciPE').textContent = gpci.pe_gpci.toFixed(3);
+            document.getElementById('gpciMP').textContent = gpci.mp_gpci.toFixed(3);
+
+            // Update section titles with locality name
+            const localityName = gpci.name || gpci.state || currentLocality;
+            document.getElementById('gpciSectionTitle').textContent = `${localityName} GPCI`;
+            document.getElementById('adjustedRvuSectionTitle').textContent = `Adjusted RVUs (${localityName})`;
+
+            // Display adjusted values (4 decimals per PRD)
+            document.getElementById('adjWork').textContent = adjWork.toFixed(4);
+            document.getElementById('adjPE').textContent = adjPE.toFixed(4);
+            document.getElementById('adjMP').textContent = adjMP.toFixed(4);
+            document.getElementById('totalAdj').textContent = totalAdj.toFixed(4);
+
+            // Calculate payment with user-entered CF (if provided)
+            const cf = parseFloat(document.getElementById('cfInput').value);
+            if (cf && cf > 0) {
+                const payment = totalAdj * cf;
+                document.getElementById('estimatedPayment').textContent = '$' + payment.toFixed(2);
+                document.getElementById('calcFormula').textContent = `${totalAdj.toFixed(4)} × $${cf.toFixed(2)}`;
+                document.getElementById('matchHelper').classList.remove('hidden');
+            } else {
+                document.getElementById('matchHelper').classList.add('hidden');
+            }
+
+            // Show results
+            document.getElementById('resultsSection').classList.remove('hidden');
+
+            // Populate multi-year comparison
+            populateMultiYearComparison(code);
+        }
+
+        function copyToClipboard() {
+            const value = document.getElementById('totalAdj').textContent;
+            navigator.clipboard.writeText(value).then(() => {
+                // Show temporary success message
+                const btn = event.target.closest('button');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        function toggleLegend() {
+            const content = document.getElementById('legendContent');
+            const icon = document.getElementById('legendIcon');
+
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMessage').classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').classList.add('hidden');
+        }
+
+        function hideResults() {
+            document.getElementById('resultsSection').classList.add('hidden');
+        }
+
+        /**
+         * Toggle visibility of multi-year comparison table
+         */
+        function toggleMultiYearTable() {
+            const content = document.getElementById('multiYearContent');
+            const icon = document.getElementById('multiYearIcon');
+
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        /**
+         * Load and populate multi-year comparison data for a CPT code
+         * @param {string} code - CPT/HCPCS code to analyze
+         */
+        async function populateMultiYearComparison(code) {
+            const years = [2019, 2020, 2021, 2022, 2023, 2024, 2025];
+            const multiYearData = [];
+
+            // Load data for all years (uses existing cache)
+            for (const year of years) {
+                try {
+                    // Ensure year data is loaded
+                    if (!rvuDataByYear[year] || !gpciDataByYear[year]) {
+                        await loadYearData(year);
+                    }
+
+                    const rvuForYear = rvuDataByYear[year][code];
+                    const gpciForYear = gpciDataByYear[year][currentLocality];
+
+                    // Skip year if code or locality doesn't exist
+                    if (!rvuForYear || !gpciForYear) {
+                        console.log(`Skipping year ${year} - data not available`);
+                        continue;
+                    }
+
+                    // Get PE value based on current POS setting
+                    const peRVU = currentPOS === 'facility'
+                        ? rvuForYear.pe_rvu_fac
+                        : rvuForYear.pe_rvu_nonfac;
+
+                    // Calculate adjusted values using GPCI
+                    const adjWork = rvuForYear.work_rvu * gpciForYear.work_gpci;
+                    const adjPE = peRVU * gpciForYear.pe_gpci;
+                    const adjMP = rvuForYear.mp_rvu * gpciForYear.mp_gpci;
+                    const totalAdj = adjWork + adjPE + adjMP;
+                    const baseTotal = rvuForYear.work_rvu + peRVU + rvuForYear.mp_rvu;
+
+                    // Calculate payment if CF provided
+                    const cf = parseFloat(document.getElementById('cfInput').value);
+                    const payment = (cf && cf > 0) ? totalAdj * cf : null;
+
+                    multiYearData.push({
+                        year,
+                        workRVU: rvuForYear.work_rvu,
+                        peRVU: peRVU,
+                        mpRVU: rvuForYear.mp_rvu,
+                        baseTotal: baseTotal,
+                        adjWork: adjWork,
+                        adjPE: adjPE,
+                        adjMP: adjMP,
+                        totalAdj: totalAdj,
+                        payment: payment,
+                        gpci: gpciForYear
+                    });
+                } catch (error) {
+                    console.warn(`Error loading data for year ${year}:`, error);
+                    // Continue with other years
+                }
+            }
+
+            // Calculate year-over-year changes
+            for (let i = 1; i < multiYearData.length; i++) {
+                const change = multiYearData[i].totalAdj - multiYearData[i - 1].totalAdj;
+                multiYearData[i].yoyChange = change;
+                multiYearData[i].yoyPercent = (change / multiYearData[i - 1].totalAdj) * 100;
+            }
+
+            // Render table with data
+            renderMultiYearTable(multiYearData);
+
+            // Show the section
+            document.getElementById('multiYearSection').classList.remove('hidden');
+        }
+
+        /**
+         * Render multi-year comparison table with formatted data
+         * @param {Array} data - Array of year data objects
+         */
+        function renderMultiYearTable(data) {
+            const tbody = document.getElementById('multiYearTableBody');
+            const cf = parseFloat(document.getElementById('cfInput').value);
+            const hasCF = cf && cf > 0;
+
+            // Update payment column visibility
+            const paymentHeader = document.getElementById('multiYearPaymentHeader');
+            if (hasCF) {
+                paymentHeader.classList.remove('hidden');
+            } else {
+                paymentHeader.classList.add('hidden');
+            }
+
+            // Update PE header based on current POS
+            const peHeader = document.getElementById('multiYearPEHeader');
+            peHeader.textContent = currentPOS === 'facility'
+                ? 'PE RVU (Facility)'
+                : 'PE RVU (Non-Facility)';
+
+            // Update locality name display
+            const gpci = gpciData[currentLocality];
+            const localityName = gpci ? (gpci.name || gpci.state || currentLocality) : currentLocality;
+            document.getElementById('multiYearLocalityName').textContent = localityName;
+
+            // Generate table rows
+            tbody.innerHTML = data.map((row, index) => {
+                const isCurrentYear = row.year === currentYear;
+                const rowClass = isCurrentYear
+                    ? 'bg-blue-50 font-semibold'
+                    : 'hover:bg-gray-50';
+
+                // Format year-over-year change with color and arrow
+                let yoyDisplay = '—';
+                if (row.yoyChange !== undefined) {
+                    const changeClass = row.yoyChange > 0
+                        ? 'text-green-700'
+                        : (row.yoyChange < 0 ? 'text-red-700' : 'text-gray-600');
+                    const arrow = row.yoyChange > 0
+                        ? '↑'
+                        : (row.yoyChange < 0 ? '↓' : '');
+                    const sign = row.yoyChange > 0 ? '+' : '';
+                    yoyDisplay = `<span class="${changeClass} font-medium">
+                        ${arrow} ${sign}${row.yoyChange.toFixed(4)}
+                        <span class="text-xs">(${sign}${row.yoyPercent.toFixed(1)}%)</span>
+                    </span>`;
+                }
+
+                // Payment cell (conditionally hidden)
+                const paymentCell = hasCF && row.payment !== null
+                    ? `<td class="px-4 py-3 text-sm text-right font-semibold text-green-700 bg-green-50" data-payment-cell>$${row.payment.toFixed(2)}</td>`
+                    : `<td class="px-4 py-3 text-sm text-right text-gray-400 bg-green-50 hidden" data-payment-cell>—</td>`;
+
+                // Current year indicator
+                const yearDisplay = isCurrentYear ? `${row.year} <span class="text-blue-600">★</span>` : row.year;
+
+                return `
+                    <tr class="${rowClass}">
+                        <td class="px-6 py-3 text-sm font-bold text-gray-900 sticky left-0 z-10 ${isCurrentYear ? 'bg-blue-50' : 'bg-white'}">${yearDisplay}</td>
+                        <td class="px-4 py-3 text-sm text-right text-gray-800">${row.workRVU.toFixed(2)}</td>
+                        <td class="px-4 py-3 text-sm text-right text-gray-800">${row.peRVU.toFixed(2)}</td>
+                        <td class="px-4 py-3 text-sm text-right text-gray-800">${row.mpRVU.toFixed(2)}</td>
+                        <td class="px-4 py-3 text-sm text-right font-semibold text-gray-900 bg-blue-50">${row.baseTotal.toFixed(2)}</td>
+                        <td class="px-4 py-3 text-sm text-right text-blue-700 bg-blue-50">${row.adjWork.toFixed(4)}</td>
+                        <td class="px-4 py-3 text-sm text-right text-blue-700 bg-blue-50">${row.adjPE.toFixed(4)}</td>
+                        <td class="px-4 py-3 text-sm text-right text-blue-700 bg-blue-50">${row.adjMP.toFixed(4)}</td>
+                        <td class="px-4 py-3 text-sm text-right font-bold text-blue-900 bg-blue-50 border-l-2 border-blue-300">${row.totalAdj.toFixed(4)}</td>
+                        ${paymentCell}
+                        <td class="px-4 py-3 text-sm text-right">${yoyDisplay}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Update summary footer
+            const summaryEl = document.getElementById('multiYearSummary');
+            if (data.length > 1) {
+                const firstYear = data[0];
+                const lastYear = data[data.length - 1];
+                const totalChange = lastYear.totalAdj - firstYear.totalAdj;
+                const percentChange = (totalChange / firstYear.totalAdj) * 100;
+                const changeClass = totalChange > 0 ? 'text-green-700' : 'text-red-700';
+                const sign = totalChange > 0 ? '+' : '';
+                summaryEl.innerHTML = `
+                    <span class="${changeClass} font-semibold">
+                        ${firstYear.year}-${lastYear.year} Change: ${sign}${totalChange.toFixed(4)}
+                        (${sign}${percentChange.toFixed(1)}%)
+                    </span>
+                `;
+            } else {
+                summaryEl.textContent = '';
+            }
+        }
+    </script>
+</body>
+</html>

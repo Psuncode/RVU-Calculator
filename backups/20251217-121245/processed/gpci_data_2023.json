@@ -1,0 +1,429 @@
+{
+  "Medicare Administrative Contractor (MAC)": {
+    "name": "Medicare Administrative Contractor (MAC)",
+    "state": "Medicare Administrative Contractor (MAC)",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "10112": {
+    "name": "10112",
+    "state": "10112",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "2102": {
+    "name": "2102",
+    "state": "2102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "3102": {
+    "name": "3102",
+    "state": "3102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "7102": {
+    "name": "7102",
+    "state": "7102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "1112": {
+    "name": "1112",
+    "state": "1112",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "1182": {
+    "name": "1182",
+    "state": "1182",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "4112": {
+    "name": "4112",
+    "state": "4112",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "13102": {
+    "name": "13102",
+    "state": "13102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "12202": {
+    "name": "12202",
+    "state": "12202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "12102": {
+    "name": "12102",
+    "state": "12102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "9102": {
+    "name": "9102",
+    "state": "9102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "10212": {
+    "name": "10212",
+    "state": "10212",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "1212": {
+    "name": "1212",
+    "state": "1212",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "2202": {
+    "name": "2202",
+    "state": "2202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "6102": {
+    "name": "6102",
+    "state": "6102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "8102": {
+    "name": "8102",
+    "state": "8102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "5102": {
+    "name": "5102",
+    "state": "5102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "5202": {
+    "name": "5202",
+    "state": "5202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "15102": {
+    "name": "15102",
+    "state": "15102",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "7202": {
+    "name": "7202",
+    "state": "7202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "14112": {
+    "name": "14112",
+    "state": "14112",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "12302": {
+    "name": "12302",
+    "state": "12302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "14212": {
+    "name": "14212",
+    "state": "14212",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "8202": {
+    "name": "8202",
+    "state": "8202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "6202": {
+    "name": "6202",
+    "state": "6202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "7302": {
+    "name": "7302",
+    "state": "7302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "5302": {
+    "name": "5302",
+    "state": "5302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "3202": {
+    "name": "3202",
+    "state": "3202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "5402": {
+    "name": "5402",
+    "state": "5402",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "1312": {
+    "name": "1312",
+    "state": "1312",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "14312": {
+    "name": "14312",
+    "state": "14312",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "12402": {
+    "name": "12402",
+    "state": "12402",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "4212": {
+    "name": "4212",
+    "state": "4212",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "13202": {
+    "name": "13202",
+    "state": "13202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "13292": {
+    "name": "13292",
+    "state": "13292",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "13282": {
+    "name": "13282",
+    "state": "13282",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "11502": {
+    "name": "11502",
+    "state": "11502",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "3302": {
+    "name": "3302",
+    "state": "3302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "15202": {
+    "name": "15202",
+    "state": "15202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "4312": {
+    "name": "4312",
+    "state": "4312",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "2302": {
+    "name": "2302",
+    "state": "2302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "12502": {
+    "name": "12502",
+    "state": "12502",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "9202": {
+    "name": "9202",
+    "state": "9202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "14412": {
+    "name": "14412",
+    "state": "14412",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "11202": {
+    "name": "11202",
+    "state": "11202",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "3402": {
+    "name": "3402",
+    "state": "3402",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "10312": {
+    "name": "10312",
+    "state": "10312",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "4412": {
+    "name": "4412",
+    "state": "4412",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "3502": {
+    "name": "3502",
+    "state": "3502",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "14512": {
+    "name": "14512",
+    "state": "14512",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "11302": {
+    "name": "11302",
+    "state": "11302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "2402": {
+    "name": "2402",
+    "state": "2402",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "11402": {
+    "name": "11402",
+    "state": "11402",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "6302": {
+    "name": "6302",
+    "state": "6302",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "3602": {
+    "name": "3602",
+    "state": "3602",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "MAC Assignments as of October 26, 2022": {
+    "name": "MAC Assignments as of October 26, 2022",
+    "state": "MAC Assignments as of October 26, 2022",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "*Work GPCI reflects a 1.5 floor in Alaska established by the MIPPA.": {
+    "name": "*Work GPCI reflects a 1.5 floor in Alaska established by the MIPPA.",
+    "state": "*Work GPCI reflects a 1.5 floor in Alaska established by the MIPPA.",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "**PE GPCI reflects a 1.0 floor for frontier states established by the ACA.": {
+    "name": "**PE GPCI reflects a 1.0 floor for frontier states established by the ACA.",
+    "state": "**PE GPCI reflects a 1.0 floor for frontier states established by the ACA.",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "Note: The 1.0 Work GPCI floor required by Section 101 of the Consolidated Appropriations Act, 2021 [December 27, 2020] extended the Work GPCI floor through December 31, 2023.": {
+    "name": "Note: The 1.0 Work GPCI floor required by Section 101 of the Consolidated Appropriations Act, 2021 [December 27, 2020] extended the Work GPCI floor through December 31, 2023.",
+    "state": "Note: The 1.0 Work GPCI floor required by Section 101 of the Consolidated Appropriations Act, 2021 [December 27, 2020] extended the Work GPCI floor through December 31, 2023.",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  },
+  "Therefore, the Work GPCIs for 2022 and 2023 reflect the 1.0 floor, and the Work GPCIs for 2024 do not reflect a 1.0 floor.": {
+    "name": "Therefore, the Work GPCIs for 2022 and 2023 reflect the 1.0 floor, and the Work GPCIs for 2024 do not reflect a 1.0 floor.",
+    "state": "Therefore, the Work GPCIs for 2022 and 2023 reflect the 1.0 floor, and the Work GPCIs for 2024 do not reflect a 1.0 floor.",
+    "work_gpci": 1.0,
+    "pe_gpci": 1.0,
+    "mp_gpci": 1.0
+  }
+}

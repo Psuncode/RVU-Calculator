@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.python-version
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Virtual environments
+venv/
+.venv/
+
+# Editor/OS noise
+.idea/
+.vscode/
+
+# Local artifacts
+*.log
+
+# Code/Codex workspace metadata
+.code/
+.meta/
+.claude/

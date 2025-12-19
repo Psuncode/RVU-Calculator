@@ -1,0 +1,72 @@
+{
+  "rvu_data": {
+    "year": 2022,
+    "source": "PPRRVU22_JAN.xlsx",
+    "release_date": "2021-12-15",
+    "total_codes": 17601,
+    "description": "CMS Physician Fee Schedule Relative Value File - January 2022 Release"
+  },
+  "gpci_data": {
+    "years_available": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "sources": {
+      "2019": "GPCI2019.csv",
+      "2020": "GPCI2020.csv",
+      "2021": "GPCI2021.csv",
+      "2022": "GPCI2022.csv",
+      "2023": "GPCI2023.csv",
+      "2024": "GPCI2024.csv",
+      "2025": "GPCI2025.csv"
+    },
+    "description": "CMS Geographic Practice Cost Indices by State and Medicare Locality"
+  },
+  "utah_gpci": {
+    "locality": "09",
+    "work_gpci": 1.0,
+    "pe_gpci": 0.919,
+    "mp_gpci": 0.799
+  },
+  "rvu_timeline": {
+    "years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "sources": {
+      "2019": "PPRRVU19_OCT.csv",
+      "2020": "PPRRVU20_OCT.csv",
+      "2021": "PPRRVU21_OCT.csv",
+      "2022": "PPRRVU22_OCT.csv",
+      "2023": "PPRRVU23_OCT.csv",
+      "2024": "PPRRVU24_OCT.csv",
+      "2025": "PPRRVU2025_Oct.csv"
+    },
+    "generated_at": "2025-12-17T19:12:46+00:00",
+    "description": "Multi-year RVU audit timeline (2019-2025)"
+  },
+  "calculator": {
+    "years_available": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "default_year": 2022,
+    "description": "Per-year RVU data for calculator view"
+  },
+  "last_updated": "2025-12-17T19:12:46+00:00"
+}
