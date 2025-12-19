@@ -801,7 +801,8 @@
         async function loadYearData(year) {
             if (rvuDataByYear[year] && gpciDataByYear[year]) {
                 console.log(`Year ${year} data already cached`);
-                return; // Already loaded
+                setCurrentYearData(year);
+                return;
             }
 
             console.log(`Loading data for year ${year}...`);
@@ -822,26 +823,36 @@
                     localityPopulated = true;
                 }
 
-                // Update current references to point to selected year
-                rvuData = rvuDataByYear[year];
-                gpciData = gpciDataByYear[year];
-
-                // Ensure current locality exists for this year
-                if (localityPopulated) {
-                    const select = document.getElementById('localitySelect');
-                    if (select && (!currentLocality || !gpciData[currentLocality])) {
-                        const entries = Object.entries(gpciData);
-                        const preferred = entries.find(([, v]) => (v.state || '').toUpperCase() === preferredState);
-                        currentLocality = preferred ? preferred[0] : (entries.length ? entries[0][0] : null);
-                        if (currentLocality) {
-                            select.value = currentLocality;
-                        }
-                    }
-                }
+                setCurrentYearData(year);
 
             } catch (error) {
                 console.error(`Error loading data for year ${year}:`, error);
                 showError(`Failed to load data for year ${year}. Please ensure data files are present.`);
+            }
+        }
+
+        function setCurrentYearData(year) {
+            const rvu = rvuDataByYear[year];
+            const gpci = gpciDataByYear[year];
+            if (!rvu || !gpci) {
+                throw new Error(`Year ${year} data not loaded yet.`);
+            }
+
+            // Update current references to point to selected year
+            rvuData = rvu;
+            gpciData = gpci;
+
+            // Ensure current locality exists for this year
+            if (localityPopulated) {
+                const select = document.getElementById('localitySelect');
+                if (select && (!currentLocality || !gpciData[currentLocality])) {
+                    const entries = Object.entries(gpciData);
+                    const preferred = entries.find(([, v]) => (v.state || '').toUpperCase() === preferredState);
+                    currentLocality = preferred ? preferred[0] : (entries.length ? entries[0][0] : null);
+                    if (currentLocality) {
+                        select.value = currentLocality;
+                    }
+                }
             }
         }
 
