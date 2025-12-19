@@ -41,6 +41,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -49,6 +50,29 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 
 REQUIRED_RVU_FIELDS = ("desc", "work_rvu", "pe_rvu_fac", "pe_rvu_nonfac", "mp_rvu")
+
+
+_CODE_RE = re.compile(r"^[0-9A-Z][0-9A-Z]{0,9}$")
+
+
+def is_valid_code(code: str) -> bool:
+    """Return True if `code` looks like a valid CPT/HCPCS key.
+
+    Defensive: upstream exports can occasionally include stray control characters
+    or other artifacts (e.g., BOM-like bytes) that should not become codes.
+    """
+
+    if not isinstance(code, str):
+        return False
+
+    code = code.strip().upper()
+    if not code:
+        return False
+
+    if not code.isprintable():
+        return False
+
+    return bool(_CODE_RE.match(code))
 
 
 @dataclass(frozen=True)
@@ -198,7 +222,9 @@ def main() -> int:
     all_codes = set()
     for year, snapshot in per_year.items():
         _ = year
-        all_codes.update(snapshot.keys())
+        for code in snapshot.keys():
+            if is_valid_code(code):
+                all_codes.add(code.strip().upper())
 
     years_index = {y: i for i, y in enumerate(output_years)}
 
@@ -280,4 +306,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

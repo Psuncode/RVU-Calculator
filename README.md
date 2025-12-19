@@ -2,6 +2,13 @@
 
 A powerful, single-page RVU calculator and audit timeline tool for payer negotiations. Calculate GPCI-adjusted RVUs for any CPT code across multiple years and localities, or track year-over-year RVU changes.
 
+## Live Demo (GitHub Pages)
+
+- Repository root (redirects to the app): `https://psuncode.github.io/RVU-Calculator/`
+- App (recommended/share this): `https://psuncode.github.io/RVU-Calculator/app/`
+
+Note: the trailing slash on `/app/` matters for some browsers/hosts. If you use `/app` (no slash), relative data loads can resolve to the wrong folder.
+
 ## Quick Start
 
 **IMPORTANT:** Due to browser security (CORS), you need to run a local web server:
@@ -24,6 +31,8 @@ python3 -m http.server 8000
 ```
 
 Then open: http://localhost:8000
+
+Tip: if you want the same URL structure as GitHub Pages locally, open `http://localhost:8000/app/`.
 
 ## Features
 
@@ -206,6 +215,12 @@ Run the test suite to verify calculations:
 node tests/test_calculations.js
 ```
 
+Run timeline builder regression tests:
+
+```bash
+node tests/test_rvu_timeline.js
+```
+
 All tests should pass with the included data.
 
 ## Technical Details
@@ -239,6 +254,16 @@ Edit the HTML `cfInput` placeholder value to show your typical CF, or leave it b
 ```bash
 python scripts/serve.py
 ```
+
+### Audit Timeline not loading on GitHub Pages
+
+Open DevTools → Network and confirm this request returns **200** (not 404) and is not HTML:
+
+- `app/data/processed/rvu_timeline_2019_2025.json`
+
+If you’re linking someone else, prefer sharing the URL with the trailing slash:
+
+- `https://psuncode.github.io/RVU-Calculator/app/`
 
 ### Data Validation
 

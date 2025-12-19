@@ -1,15 +1,17 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `index.html`: single-file UI with Tailwind CDN and inline JS that handles lookups, Utah GPCI math, and UI state.
-- `data/rvu_data.json` & `data/gpci_data.json`: CPT metadata and locality multipliers loaded at runtime.
-- `parse_cms_data.py`: CSV→JSON converter for CMS RVU or GPCI files; accepts input/output args and logs parsing stats.
-- `test_calculations.js`: Node test harness covering calculation correctness and rounding expectations.
+- `app/index.html`: shipping single-page app with Tailwind CDN and inline JS.
+- `app/data/processed/`: checked-in CMS RVU + GPCI JSON snapshots (2019–2025) and the consolidated timeline.
+- `scripts/parse_cms_data.py`: CSV→JSON converter for CMS RVU or GPCI files; accepts input/output args and logs parsing stats.
+- `tests/test_calculations.js`: Node test harness covering calculation correctness and rounding expectations.
 
 ## Build, Test, and Development Commands
-- `open index.html` (or `python3 -m http.server` + browser): run the production UI via `file://`/localhost.
-- `python3 parse_cms_data.py <input.csv> data/rvu_data.json`: regenerate CPT data (repeat for GPCI outputs).
-- `node test_calculations.js`: execute deterministic regression tests before/after data updates.
+- `python scripts/serve.py`: run the bundled dev server and open the SPA.
+- `python3 -m http.server 8000` (from `app/`): simple static server.
+- `python3 scripts/parse_cms_data.py <input.csv> app/data/processed/rvu_data_<year>.json`: regenerate one year.
+- `node tests/test_calculations.js`: execute deterministic regression tests.
+- `node tests/test_rvu_timeline.js`: verify timeline build rules.
 
 ## Coding Style & Naming Conventions
 - Keep all app logic inside `index.html` inline `<script>` tags (TR-1) using 4-space indentation and descriptive camelCase (`currentPOS`, `calculateAndDisplay`).

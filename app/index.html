@@ -126,16 +126,26 @@
                     <label for="cptInput" class="block text-sm font-medium text-gray-700 mb-2">
                         CPT / HCPCS Code
                     </label>
-                    <div class="relative">
-                        <input
-                            type="text"
-                            id="cptInput"
-                            placeholder="Enter code (e.g., 99213)"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase"
-                            maxlength="5"
-                            autocomplete="off"
-                        />
-                        <div id="autocomplete-list" class="autocomplete-items hidden"></div>
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
+                            <input
+                                type="text"
+                                id="cptInput"
+                                placeholder="Enter code (e.g., 99213)"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent uppercase"
+                                maxlength="5"
+                                autocomplete="off"
+                            />
+                            <div id="autocomplete-list" class="autocomplete-items hidden"></div>
+                        </div>
+                        <button
+                            type="button"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+                            onclick="calculateFromInput()"
+                            title="Calculate using the code in the input box"
+                        >
+                            Calculate
+                        </button>
                     </div>
                 </div>
 
@@ -690,8 +700,17 @@
         // Data version - update this when data files change to force cache refresh
         const DATA_VERSION = '20251219_v2';
 
+        // GitHub Pages edge-case: visiting /app (no trailing slash) can break relative fetch() paths.
+        // Normalize to /app/ early.
+        if (window.location.pathname.endsWith('/app')) {
+            window.location.replace(window.location.pathname + '/' + window.location.search + window.location.hash);
+        }
+
         function toDataUrl(relativePath) {
-            const baseUrl = new URL('.', window.location.href);
+            const safeHref = window.location.href.endsWith('/')
+                ? window.location.href
+                : window.location.href + '/';
+            const baseUrl = new URL('.', safeHref);
             const url = new URL(relativePath, baseUrl);
             url.searchParams.set('v', DATA_VERSION);
             return url.toString();
@@ -712,13 +731,28 @@
             }
 
             const contentType = (resp.headers.get('content-type') || '').toLowerCase();
-            if (contentType && !contentType.includes('application/json')) {
-                const preview = await resp.text().catch(() => '');
-                const snippet = preview ? ` Preview: ${preview.slice(0, 200)}` : '';
-                throw new Error(`Unexpected content-type for ${relativePath}: ${contentType}.${snippet}`);
+            const looksJsonType = !contentType
+                || contentType.includes('application/json')
+                || contentType.includes('text/json')
+                || contentType.includes('text/plain')
+                || contentType.includes('application/octet-stream');
+
+            if (looksJsonType) {
+                const text = await resp.text();
+                const trimmed = text.trimStart();
+                if (trimmed.startsWith('<')) {
+                    throw new Error(`Unexpected HTML for ${relativePath} (check paths / deployment).`);
+                }
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    throw new Error(`Failed to parse JSON for ${relativePath}: ${e && e.message ? e.message : String(e)}`);
+                }
             }
 
-            return await resp.json();
+            const preview = await resp.text().catch(() => '');
+            const snippet = preview ? ` Preview: ${preview.slice(0, 200)}` : '';
+            throw new Error(`Unexpected content-type for ${relativePath}: ${contentType}.${snippet}`);
         }
 
         function validateRvuDatasetShape(year, dataset) {
@@ -1415,14 +1449,34 @@
             // Update year badge
             document.getElementById('yearBadge').textContent = currentYear;
 
-            // Recalculate if we have a code
-            if (currentCode) {
-                calculateAndDisplay(currentCode);
+            // Recalculate if we have a code (or the user typed one but didn't hit Enter)
+            const candidate = currentCode || document.getElementById('cptInput').value.toUpperCase().trim();
+            if (candidate && rvuData[candidate]) {
+                currentCode = candidate;
+                calculateAndDisplay(candidate);
                 // Update multi-year table highlight
                 if (document.getElementById('multiYearSection').classList.contains('hidden') === false) {
-                    populateMultiYearComparison(currentCode);
+                    populateMultiYearComparison(candidate);
                 }
+            } else if (candidate) {
+                showError(`Code "${candidate}" not found in ${currentYear} dataset.`);
+                hideResults();
+                currentCode = null;
             }
+        }
+
+        function calculateFromInput() {
+            const input = document.getElementById('cptInput');
+            const code = input.value.toUpperCase().trim();
+            document.getElementById('autocomplete-list').classList.add('hidden');
+
+            if (!code) {
+                showError('Enter a CPT/HCPCS code, then click Calculate.');
+                hideResults();
+                return;
+            }
+
+            lookupCode(code);
         }
 
         // Handle locality selection change
